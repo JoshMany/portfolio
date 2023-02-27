@@ -3,8 +3,10 @@
 * {
   margin: 0;
   padding: 0;
-  background-color: #c1d6ff;
-  color: #003c96;
+  --primary-color: #3ec8ff;
+  --secondary-color: #ff753e;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
   font-family: "Catamaran", sans-serif;
   font-style: normal;
 }
@@ -38,8 +40,10 @@
     margin-right: 15px;
   }
 
-  .btn_menu_img {
+  .btn_menu .btn_menu_img {
     width: 2.05rem;
+    stroke: var(--secondary-color);
+    fill: var(--secondary-color);
   }
 
   .sidebar {
@@ -90,8 +94,8 @@
     font-size: 23px;
     line-height: 23px;
     padding-top: 12px;
-    color: #c1d6ff;
-    text-shadow: 4px 4px 13px #003c96;
+    color: var(--primary-color);
+    text-shadow: 1px -1px 2px var(--secondary-color);
   }
   .Main p {
     font-weight: 400;
@@ -234,7 +238,7 @@
     width: 280px;
     height: 22rem;
     padding-top: 15px;
-    border-right: solid 2px #003c96;
+    border-right: solid 2px var(--secondary-color);
     padding-left: 24px;
     padding-right: 24px;
     padding-bottom: 15px;
@@ -293,7 +297,7 @@
 
   .Contact {
     width: 100%;
-    background-color: #003c96;
+    background-color: var(--secondary-color);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -308,12 +312,12 @@
     font-weight: bold;
     font-size: 46px;
     line-height: 1.1em;
-    background-color: #003c96;
+    background-color: var(--secondary-color);
     letter-spacing: -0.03em;
     margin-bottom: 16px;
   }
   .Contact p {
-    background-color: #003c96;
+    background-color: var(--secondary-color);
     color: white;
     font-size: 16px;
     font-weight: 400;
@@ -321,10 +325,10 @@
     margin-bottom: 22px;
   }
   .Contact button {
-    color: #ffece8;
+    color: white;
     position: relative;
     border: 1px solid;
-    background-color: #003c96;
+    background-color: var(--secondary-color);
     padding: 22px 22px;
     font-size: 18px;
     line-height: 15px;
@@ -347,5 +351,44 @@
   }
   .Footer img {
     height: 20px;
+  }
+
+  .AboutMe {
+    display: flex;
+    flex-direction: column;
+  }
+  .AboutMe h2 {
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 33px;
+    width: 200px;
+    margin-top: 25px;
+    margin-left: 15px;
+  }
+  .AboutMe .container {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  .AboutMe .container p {
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 23px;
+    width: fit-content;
+    word-wrap: break-word;
+    margin-left: 15px;
+    padding-right: 15px;
+  }
+  .AboutMe .container .photo-container {
+    width: 100%;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    border-top: solid 1px;
+    border-bottom: solid 1px;
+  }
+  .AboutMe .container .photo-container .personal-photo {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
   }
 }
