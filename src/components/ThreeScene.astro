@@ -15,7 +15,7 @@
 </label> -->
 <div
   id="three-scene"
-  class="relative -z-10 min-h-screen w-full text-black md:fixed md:top-0 md:left-0 md:h-screen md:min-h-0 md:w-1/2"
+  class="relative -z-10 h-[60vh] w-full text-black md:fixed md:top-0 md:left-0 md:h-screen md:min-h-0 md:w-1/2"
 >
 </div>
 
@@ -39,7 +39,7 @@
 
   loader.load("/chango.glb", (gltf) => {
     model = gltf.scene;
-    model.scale.set(1.2, 1.2, 1.2);
+    model.scale.set(modelScale, modelScale, modelScale);
     // Ajustar materiales para mejor respuesta a luz = más contraste ASCII
     model.traverse((child) => {
       if (child instanceof THREE.Mesh && child.material) {
@@ -54,9 +54,14 @@
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(container.clientWidth, container.clientHeight);
 
+  // ── Mobile detection ─────────────────────────────────────────
+  const isMobile = window.matchMedia("(max-width: 767px)").matches;
+  const modelScale = isMobile ? 0.9 : 1.2;
+  const asciiResolution = isMobile ? 0.22 : 0.15;
+
   // ── ASCII effect (wraps the renderer) ─────────────────────────
   const effect = new AsciiEffect(renderer, " .:-=+*#%@", {
-    resolution: 0.15,
+    resolution: asciiResolution,
     scale: 1,
     color: false,
     invert: true,
@@ -64,13 +69,17 @@
   effect.setSize(container.clientWidth, container.clientHeight);
   container.appendChild(effect.domElement);
 
-  // Canvas crudo (oculto por defecto)
-  renderer.domElement.style.display = "none";
+  // Canvas crudo (visible solo en mobile)
+  if (isMobile) {
+    effect.domElement.style.display = "none";
+  } else {
+    renderer.domElement.style.display = "none";
+  }
   container.appendChild(renderer.domElement);
 
   // ── Toggle ASCII / Raw ──────────────────────────────────────
   const toggleEl = document.getElementById("ascii-toggle");
-  let asciiEnabled = true;
+  let asciiEnabled = !isMobile;
 
   if (toggleEl) {
     const toggle = toggleEl.querySelector("input")!;
@@ -104,7 +113,7 @@
   lightMarker.position.copy(pointLight.position);
   scene.add(lightMarker);
 
-  camera.position.z = 3;
+  camera.position.z = isMobile ? 3.5 : 3;
 
   // ── Mouse tracking ──────────────────────────────────────────
   let targetX = 0;
