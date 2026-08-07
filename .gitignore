@@ -22,3 +22,15 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Intlayer
+.intlayer
+
+# Vercel
+.vercel
+
+# Netlify
+.netlify
+
+# GitHub Skills
+.github/skills/

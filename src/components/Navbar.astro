@@ -1,0 +1,43 @@
+---
+import { type LocalesValues } from "intlayer";
+import LanguageSwitcher from "@/components/LanguageSwitcher.astro";
+
+interface Props {
+  locale: LocalesValues;
+  content: Record<string, string>;
+  currentPath: string;
+}
+
+const { locale, content: nav, currentPath } = Astro.props;
+---
+
+<nav
+  class="fixed top-0 right-0 z-40 hidden items-center gap-1 px-8 py-4 md:flex"
+>
+  <a
+    href={nav.link1Href}
+    class="rounded-md px-3 py-2 text-sm font-medium text-stone-500 transition hover:bg-stone-200/80 hover:text-stone-900"
+    >{nav.link1Label}</a
+  >
+  <a
+    href={nav.link2Href}
+    class="rounded-md px-3 py-2 text-sm font-medium text-stone-500 transition hover:bg-stone-200/80 hover:text-stone-900"
+    >{nav.link2Label}</a
+  >
+  <a
+    href={nav.link3Href}
+    class="rounded-md px-3 py-2 text-sm font-medium text-stone-500 transition hover:bg-stone-200/80 hover:text-stone-900"
+    >{nav.link3Label}</a
+  >
+  <a
+    href={nav.link4Href}
+    class="rounded-md px-3 py-2 text-sm font-medium text-stone-500 transition hover:bg-stone-200/80 hover:text-stone-900"
+    >{nav.link4Label}</a
+  >
+  <a
+    href={nav.link5Href}
+    class="rounded-md px-3 py-2 text-sm font-medium text-stone-500 transition hover:bg-stone-200/80 hover:text-stone-900"
+    >{nav.link5Label}</a
+  >
+  <LanguageSwitcher locale={locale} currentPath={currentPath} />
+</nav>

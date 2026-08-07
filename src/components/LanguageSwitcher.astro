@@ -1,0 +1,28 @@
+---
+import { type LocalesValues } from "intlayer";
+
+interface Props {
+  locale: LocalesValues;
+  currentPath: string;
+}
+
+const { locale, currentPath } = Astro.props;
+
+// Quitar el prefijo de idioma actual del path
+const pathWithoutLocale = currentPath.replace(/^\/(en|es)/, "") || "/";
+---
+
+<span
+  class="ml-2 flex items-center gap-1 rounded-lg border border-stone-300 bg-stone-100/60 p-1 text-xs font-medium"
+>
+  <a
+    href={`/en${pathWithoutLocale}`}
+    class={`rounded px-2 py-1 transition ${locale === "en" ? "bg-stone-900 text-[#e4dec0]" : "text-stone-500 hover:text-stone-900"}`}
+    >EN</a
+  >
+  <a
+    href={`/es${pathWithoutLocale}`}
+    class={`rounded px-2 py-1 transition ${locale === "es" ? "bg-stone-900 text-[#e4dec0]" : "text-stone-500 hover:text-stone-900"}`}
+    >ES</a
+  >
+</span>

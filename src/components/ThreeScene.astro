@@ -1,0 +1,179 @@
+---
+
+---
+
+<!-- <label
+  id="ascii-toggle"
+  class="fixed top-4 right-4 z-50 flex items-center gap-3 rounded-lg border border-slate-700 bg-slate-900/80 px-4 py-2 backdrop-blur-sm"
+>
+  <span class="text-sm text-slate-400 select-none">ASCII</span>
+  <input type="checkbox" checked class="peer sr-only" />
+  <div
+    class="h-5 w-9 rounded-full bg-slate-700 transition peer-checked:bg-green-500 after:absolute after:mt-0.5 after:ml-0.5 after:block after:h-4 after:w-4 after:rounded-full after:bg-white after:transition after:content-[''] peer-checked:after:translate-x-4"
+  >
+  </div>
+</label> -->
+<div
+  id="three-scene"
+  class="relative -z-10 min-h-screen w-full text-black md:fixed md:top-0 md:left-0 md:h-screen md:min-h-0 md:w-1/2"
+>
+</div>
+
+<script>
+  import * as THREE from "three";
+  import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+  import { AsciiEffect } from "@/components/effects/ascii.js";
+
+  const container = document.getElementById("three-scene")!;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(
+    75,
+    container.clientWidth / container.clientHeight,
+    0.1,
+    1000,
+  );
+
+  const loader = new GLTFLoader();
+  let model: THREE.Group | null = null;
+
+  loader.load("/chango.glb", (gltf) => {
+    model = gltf.scene;
+    model.scale.set(1.2, 1.2, 1.2);
+    // Ajustar materiales para mejor respuesta a luz = más contraste ASCII
+    model.traverse((child) => {
+      if (child instanceof THREE.Mesh && child.material) {
+        const mat = child.material as THREE.MeshStandardMaterial;
+        mat.roughness = 0.5;
+        mat.metalness = 0.1;
+      }
+    });
+    scene.add(model);
+  });
+
+  const renderer = new THREE.WebGLRenderer();
+  renderer.setSize(container.clientWidth, container.clientHeight);
+
+  // ── ASCII effect (wraps the renderer) ─────────────────────────
+  const effect = new AsciiEffect(renderer, " .:-=+*#%@", {
+    resolution: 0.15,
+    scale: 1,
+    color: false,
+    invert: true,
+  });
+  effect.setSize(container.clientWidth, container.clientHeight);
+  container.appendChild(effect.domElement);
+
+  // Canvas crudo (oculto por defecto)
+  renderer.domElement.style.display = "none";
+  container.appendChild(renderer.domElement);
+
+  // ── Toggle ASCII / Raw ──────────────────────────────────────
+  const toggleEl = document.getElementById("ascii-toggle");
+  let asciiEnabled = true;
+
+  if (toggleEl) {
+    const toggle = toggleEl.querySelector("input")!;
+    toggle.addEventListener("change", () => {
+      asciiEnabled = toggle.checked;
+      effect.domElement.style.display = asciiEnabled ? "" : "none";
+      renderer.domElement.style.display = asciiEnabled ? "none" : "";
+    });
+  }
+
+  // ── Lights ──────────────────────────────────────────────────
+  // Ambient muy bajo = sombras profundas = alto contraste ASCII
+  const ambient = new THREE.AmbientLight(0x111133, 0.08);
+  scene.add(ambient);
+
+  // Luz principal: cálida, lateral, intensidad moderada
+  const pointLight = new THREE.PointLight(0xff9944, 80, 10);
+  pointLight.position.set(2.5, 2, 3);
+  scene.add(pointLight);
+
+  // Rim light: trasera, fría, muy sutil — solo delinea la silueta
+  const rimLight = new THREE.PointLight(0x4488cc, 25, 6);
+  rimLight.position.set(-2, 0.5, -1);
+  scene.add(rimLight);
+
+  // Esfera indicadora de la posición de la luz
+  const lightMarker = new THREE.Mesh(
+    new THREE.SphereGeometry(0.12, 8, 8),
+    new THREE.MeshBasicMaterial({ color: 0xff8844 }),
+  );
+  lightMarker.position.copy(pointLight.position);
+  scene.add(lightMarker);
+
+  camera.position.z = 3;
+
+  // ── Mouse tracking ──────────────────────────────────────────
+  let targetX = 0;
+  let targetY = 0;
+  let currentX = 0;
+  let currentY = 0;
+
+  window.addEventListener("mousemove", (e) => {
+    // Normalizar posición del mouse a [-1, 1] respecto al viewport
+    targetX = (e.clientX / window.innerWidth) * 2 - 1;
+    targetY = -(e.clientY / window.innerHeight) * 2 + 1;
+  });
+
+  function animate(time: number) {
+    const t = time / 1000;
+
+    // Suavizado del seguimiento al cursor (lerp)
+    currentX += (targetX - currentX) * 0.03;
+    currentY += (targetY - currentY) * 0.03;
+
+    if (model) {
+      // Rotación base (π/6 ≈ 30°) + micro-ajuste por cursor (±11°)
+      model.rotation.y = Math.PI / 6 + currentX * 0.2;
+      model.rotation.x = -currentY * 0.1;
+    }
+
+    // Luz principal: movimiento sutil
+    pointLight.position.x = 2.5 + Math.sin(t * 0.3) * 0.8;
+    pointLight.position.y = 2 + Math.cos(t * 0.25) * 0.6;
+    pointLight.position.z = 3 + Math.sin(t * 0.2) * 0.5;
+
+    // Rim light: opuesta, movimiento aún más sutil
+    rimLight.position.x = -2 + Math.cos(t * 0.2) * 0.5;
+    rimLight.position.y = 0.5 + Math.sin(t * 0.18) * 0.3;
+    rimLight.position.z = -1 + Math.cos(t * 0.22) * 0.4;
+
+    // Marker sigue a la luz
+    lightMarker.position.copy(pointLight.position);
+
+    if (asciiEnabled) {
+      effect.render(scene, camera);
+    } else {
+      renderer.render(scene, camera);
+    }
+  }
+  renderer.setAnimationLoop(animate);
+
+  window.addEventListener("resize", () => {
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+    effect.setSize(w, h);
+  });
+</script>
+
+<style>
+  #three-scene {
+    overflow: hidden;
+  }
+  #three-scene canvas {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  #three-scene table {
+    color: rgba(100, 255, 100, 0.18);
+    font-family: "Courier New", Courier, monospace;
+    line-height: 1.1;
+  }
+</style>
