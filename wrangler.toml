@@ -2,7 +2,5 @@ name = "joshmany-portfolio"
 compatibility_date = "2026-08-06"
 pages_build_output_dir = "./dist"
 
-[env.production]
-routes = [
-  { pattern = "manuelmunoz.dev", custom_domain = true }
-]
+[build]
+command = "pnpm astro build"
