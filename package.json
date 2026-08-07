@@ -11,7 +11,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "deploy": "astro build && wrangler pages deploy dist --project-name=joshmany-portfolio"
+    "deploy": "astro build && wrangler pages deploy dist --project-name=joshmany-portfolio",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
@@ -32,7 +34,9 @@
     "typescript": "^7.0.2"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/node": "^26.1.2",
+    "eslint": "^10.8.0",
     "prettier": "3.8.3",
     "prettier-plugin-astro": "0.14.1",
     "three": "^0.185.1",

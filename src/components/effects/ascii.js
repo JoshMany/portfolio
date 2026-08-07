@@ -1,3 +1,4 @@
+/* eslint-env browser */
 /**
  * A class that creates an ASCII effect.
  *
