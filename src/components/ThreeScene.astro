@@ -69,17 +69,13 @@
   effect.setSize(container.clientWidth, container.clientHeight);
   container.appendChild(effect.domElement);
 
-  // Canvas crudo (visible solo en mobile)
-  if (isMobile) {
-    effect.domElement.style.display = "none";
-  } else {
-    renderer.domElement.style.display = "none";
-  }
+  // Canvas crudo (oculto; ASCII visible en todos los dispositivos)
+  renderer.domElement.style.display = "none";
   container.appendChild(renderer.domElement);
 
   // ── Toggle ASCII / Raw ──────────────────────────────────────
   const toggleEl = document.getElementById("ascii-toggle");
-  let asciiEnabled = !isMobile;
+  let asciiEnabled = true;
 
   if (toggleEl) {
     const toggle = toggleEl.querySelector("input")!;
