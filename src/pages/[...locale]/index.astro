@@ -26,19 +26,17 @@ const c = await getIntlayer("index", locale);
   >
     <ThreeScene />
     <div class="relative z-10 px-6 pb-10 md:ml-[50%] md:pr-16 md:pb-0 lg:pr-24">
-      <p
-        class="text-sm tracking-[0.25em] text-stone-500 uppercase md:text-base"
-      >
+      <p class="text-sm tracking-[0.25em] text-gray-400 uppercase md:text-base">
         {c.hero.subtitle}
       </p>
       <h1
-        class="mt-2 text-5xl leading-none font-bold text-stone-900 md:text-7xl lg:text-8xl"
+        class="mt-2 text-5xl leading-none font-bold text-white md:text-7xl lg:text-8xl"
       >
         {c.hero.firstName}{" "}
         <span class="font-serif font-normal italic">{c.hero.lastName}</span>
       </h1>
       <p
-        class="mt-5 max-w-md text-base leading-relaxed text-stone-500 md:text-lg"
+        class="mt-5 max-w-md text-base leading-relaxed text-gray-400 md:text-lg"
       >
         {c.hero.description}
       </p>
@@ -46,7 +44,7 @@ const c = await getIntlayer("index", locale);
         <a
           href="/José_Manuel_Muñoz_García_Resume_2026.pdf"
           download
-          class="inline-flex items-center gap-2 rounded-md bg-stone-900 px-5 py-3 text-sm font-medium text-[#e4dec0] transition hover:bg-stone-700"
+          class="inline-flex items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-medium text-black transition hover:bg-gray-300"
           ><svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -64,7 +62,7 @@ const c = await getIntlayer("index", locale);
         >
         <a
           href="#contact"
-          class="inline-flex items-center gap-2 rounded-md border border-stone-400 px-5 py-3 text-sm font-medium text-stone-700 transition hover:border-stone-600 hover:text-stone-900"
+          class="inline-flex items-center gap-2 rounded-md border border-gray-600 px-5 py-3 text-sm font-medium text-gray-300 transition hover:border-gray-500 hover:text-white"
           >{c.hero.contact}</a
         >
       </div>
@@ -72,24 +70,24 @@ const c = await getIntlayer("index", locale);
     <div
       class="absolute bottom-6 left-1/2 z-10 hidden -translate-x-1/2 md:block"
     >
-      <span class="block h-10 w-6 rounded-full border-2 border-stone-400"
+      <span class="block h-10 w-6 rounded-full border-2 border-gray-600"
         ><span
-          class="mx-auto mt-2 block h-1.5 w-1.5 animate-bounce rounded-full bg-stone-400"
+          class="mx-auto mt-2 block h-1.5 w-1.5 animate-bounce rounded-full bg-gray-600"
         ></span></span
       >
     </div>
   </section>
 
-  <div class="md:ml-[50%]">
+  <div class="relative z-10 md:ml-[50%]">
     <!-- ABOUT -->
     <section id="about" class="px-6 py-20 md:pr-16 lg:pr-24">
-      <span class="text-xs tracking-[0.3em] text-stone-400 uppercase"
+      <span class="text-xs tracking-[0.3em] text-gray-500 uppercase"
         >{c.about.sectionLabel}</span
       >
-      <h2 class="mt-2 text-3xl font-bold text-stone-900 md:text-4xl">
+      <h2 class="mt-2 text-3xl font-bold text-white md:text-4xl">
         {c.about.heading}
       </h2>
-      <div class="mt-6 max-w-lg space-y-4 leading-relaxed text-stone-600">
+      <div class="mt-6 max-w-lg space-y-4 leading-relaxed text-gray-400">
         <p>
           {c.about.p1}
         </p>
@@ -99,22 +97,22 @@ const c = await getIntlayer("index", locale);
       </div>
       <div class="mt-10 grid max-w-sm grid-cols-3 gap-6">
         <div>
-          <p class="text-3xl font-bold text-stone-900">{c.about.stat1Num}</p><p
-            class="mt-1 text-xs leading-tight text-stone-400"
+          <p class="text-3xl font-bold text-white">{c.about.stat1Num}</p><p
+            class="mt-1 text-xs leading-tight text-gray-500"
           >
             {c.about.stat1Label}
           </p>
         </div>
         <div>
-          <p class="text-3xl font-bold text-stone-900">{c.about.stat2Num}</p><p
-            class="mt-1 text-xs leading-tight text-stone-400"
+          <p class="text-3xl font-bold text-white">{c.about.stat2Num}</p><p
+            class="mt-1 text-xs leading-tight text-gray-500"
           >
             {c.about.stat2Label}
           </p>
         </div>
         <div>
-          <p class="text-3xl font-bold text-stone-900">{c.about.stat3Num}</p><p
-            class="mt-1 text-xs leading-tight text-stone-400"
+          <p class="text-3xl font-bold text-white">{c.about.stat3Num}</p><p
+            class="mt-1 text-xs leading-tight text-gray-500"
           >
             {c.about.stat3Label}
           </p>
@@ -124,10 +122,10 @@ const c = await getIntlayer("index", locale);
 
     <!-- TECH STACK -->
     <section id="stack" class="px-6 py-16 md:pr-16 lg:pr-24">
-      <span class="text-xs tracking-[0.3em] text-stone-400 uppercase"
+      <span class="text-xs tracking-[0.3em] text-gray-500 uppercase"
         >{c.stack.sectionLabel}</span
       >
-      <h2 class="mt-2 text-3xl font-bold text-stone-900 md:text-4xl">
+      <h2 class="mt-2 text-3xl font-bold text-white md:text-4xl">
         {c.stack.heading}
       </h2>
       <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
@@ -150,7 +148,7 @@ const c = await getIntlayer("index", locale);
             "Three.js",
             "Astro",
           ].map((t) => (
-            <div class="rounded-md border border-stone-300 bg-stone-100/50 px-4 py-3 text-center text-sm font-medium text-stone-700 transition hover:border-stone-400 hover:bg-stone-100">
+            <div class="rounded-md border border-gray-700 bg-white/5 px-4 py-3 text-center text-sm font-medium text-gray-300 transition hover:border-gray-600 hover:bg-white/10">
               {t}
             </div>
           ))
@@ -160,62 +158,62 @@ const c = await getIntlayer("index", locale);
 
     <!-- TIMELINE -->
     <section id="timeline" class="px-6 py-16 md:pr-16 lg:pr-24">
-      <span class="text-xs tracking-[0.3em] text-stone-400 uppercase"
+      <span class="text-xs tracking-[0.3em] text-gray-500 uppercase"
         >{c.timeline.sectionLabel}</span
       >
-      <h2 class="mt-2 text-3xl font-bold text-stone-900 md:text-4xl">
+      <h2 class="mt-2 text-3xl font-bold text-white md:text-4xl">
         {c.timeline.heading}
       </h2>
       <div class="mt-10 space-y-0">
-        <div class="relative border-l-2 border-stone-300 pb-10 pl-8">
+        <div class="relative border-l-2 border-gray-700 pb-10 pl-8">
           <span
-            class="absolute top-0 -left-1.25 block h-2 w-2 rounded-full bg-stone-500"
-          ></span><p class="text-sm font-medium text-stone-400">
+            class="absolute top-0 -left-1.25 block h-2 w-2 rounded-full bg-gray-500"
+          ></span><p class="text-sm font-medium text-gray-500">
             {c.timeline.t1Year}
-          </p><h3 class="mt-1 text-lg font-semibold text-stone-900">
+          </p><h3 class="mt-1 text-lg font-semibold text-white">
             {c.timeline.t1Role}
-          </h3><p class="text-sm font-medium text-stone-500">
+          </h3><p class="text-sm font-medium text-gray-400">
             {c.timeline.t1Company}
-          </p><p class="mt-2 text-sm leading-relaxed text-stone-600">
+          </p><p class="mt-2 text-sm leading-relaxed text-gray-400">
             {c.timeline.t1Desc}
           </p>
         </div>
-        <div class="relative border-l-2 border-stone-300 pb-10 pl-8">
+        <div class="relative border-l-2 border-gray-700 pb-10 pl-8">
           <span
-            class="absolute top-0 -left-1.25 block h-2 w-2 rounded-full bg-stone-500"
-          ></span><p class="text-sm font-medium text-stone-400">
+            class="absolute top-0 -left-1.25 block h-2 w-2 rounded-full bg-gray-500"
+          ></span><p class="text-sm font-medium text-gray-500">
             {c.timeline.t2Year}
-          </p><h3 class="mt-1 text-lg font-semibold text-stone-900">
+          </p><h3 class="mt-1 text-lg font-semibold text-white">
             {c.timeline.t2Role}
-          </h3><p class="text-sm font-medium text-stone-500">
+          </h3><p class="text-sm font-medium text-gray-400">
             {c.timeline.t2Company}
-          </p><p class="mt-2 text-sm leading-relaxed text-stone-600">
+          </p><p class="mt-2 text-sm leading-relaxed text-gray-400">
             {c.timeline.t2Desc}
           </p>
         </div>
-        <div class="relative border-l-2 border-stone-300 pb-10 pl-8 last:pb-0">
+        <div class="relative border-l-2 border-gray-700 pb-10 pl-8 last:pb-0">
           <span
-            class="absolute top-0 -left-1.25 block h-2 w-2 rounded-full bg-stone-500"
-          ></span><p class="text-sm font-medium text-stone-400">
+            class="absolute top-0 -left-1.25 block h-2 w-2 rounded-full bg-gray-500"
+          ></span><p class="text-sm font-medium text-gray-500">
             {c.timeline.t3Year}
-          </p><h3 class="mt-1 text-lg font-semibold text-stone-900">
+          </p><h3 class="mt-1 text-lg font-semibold text-white">
             {c.timeline.t3Role}
-          </h3><p class="text-sm font-medium text-stone-500">
+          </h3><p class="text-sm font-medium text-gray-400">
             {c.timeline.t3Company}
-          </p><p class="mt-2 text-sm leading-relaxed text-stone-600">
+          </p><p class="mt-2 text-sm leading-relaxed text-gray-400">
             {c.timeline.t3Desc}
           </p>
         </div>
-        <div class="relative border-l-2 border-stone-300 pb-10 pl-8 last:pb-0">
+        <div class="relative border-l-2 border-gray-700 pb-10 pl-8 last:pb-0">
           <span
-            class="absolute top-0 -left-1.25 block h-2 w-2 rounded-full bg-stone-500"
-          ></span><p class="text-sm font-medium text-stone-400">
+            class="absolute top-0 -left-1.25 block h-2 w-2 rounded-full bg-gray-500"
+          ></span><p class="text-sm font-medium text-gray-500">
             {c.timeline.t4Year}
-          </p><h3 class="mt-1 text-lg font-semibold text-stone-900">
+          </p><h3 class="mt-1 text-lg font-semibold text-white">
             {c.timeline.t4Role}
-          </h3><p class="text-sm font-medium text-stone-500">
+          </h3><p class="text-sm font-medium text-gray-400">
             {c.timeline.t4Company}
-          </p><p class="mt-2 text-sm leading-relaxed text-stone-600">
+          </p><p class="mt-2 text-sm leading-relaxed text-gray-400">
             {c.timeline.t4Desc}
           </p>
         </div>
@@ -224,24 +222,24 @@ const c = await getIntlayer("index", locale);
 
     <!-- PROJECTS -->
     <section id="projects" class="px-6 py-16 md:pr-16 lg:pr-24">
-      <span class="text-xs tracking-[0.3em] text-stone-400 uppercase"
+      <span class="text-xs tracking-[0.3em] text-gray-500 uppercase"
         >{c.projects.sectionLabel}</span
       >
-      <h2 class="mt-2 text-3xl font-bold text-stone-900 md:text-4xl">
+      <h2 class="mt-2 text-3xl font-bold text-white md:text-4xl">
         {c.projects.heading}
       </h2>
       <div class="mt-8 grid gap-6 sm:grid-cols-2">
         <div
-          class="group rounded-xl border border-stone-300 bg-white/60 p-6 transition hover:border-stone-400 hover:shadow-md"
+          class="group rounded-xl border border-gray-700 bg-white/5 p-6 transition hover:border-gray-600 hover:shadow-md"
         >
-          <p class="text-xs font-medium text-stone-400">
+          <p class="text-xs font-medium text-gray-500">
             {c.projects.p1Tags}
-          </p><h3 class="mt-2 text-lg font-semibold text-stone-900">
+          </p><h3 class="mt-2 text-lg font-semibold text-white">
             {c.projects.p1Title}
-          </h3><p class="mt-2 text-sm leading-relaxed text-stone-600">
+          </h3><p class="mt-2 text-sm leading-relaxed text-gray-400">
             {c.projects.p1Desc}
           </p><span
-            class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-stone-500 transition group-hover:text-stone-700"
+            class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-gray-400 transition group-hover:text-gray-200"
             >{c.projects.viewLabel}
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -259,16 +257,16 @@ const c = await getIntlayer("index", locale);
           >
         </div>
         <div
-          class="group rounded-xl border border-stone-300 bg-white/60 p-6 transition hover:border-stone-400 hover:shadow-md"
+          class="group rounded-xl border border-gray-700 bg-white/5 p-6 transition hover:border-gray-600 hover:shadow-md"
         >
-          <p class="text-xs font-medium text-stone-400">
+          <p class="text-xs font-medium text-gray-500">
             {c.projects.p2Tags}
-          </p><h3 class="mt-2 text-lg font-semibold text-stone-900">
+          </p><h3 class="mt-2 text-lg font-semibold text-white">
             {c.projects.p2Title}
-          </h3><p class="mt-2 text-sm leading-relaxed text-stone-600">
+          </h3><p class="mt-2 text-sm leading-relaxed text-gray-400">
             {c.projects.p2Desc}
           </p><span
-            class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-stone-500 transition group-hover:text-stone-700"
+            class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-gray-400 transition group-hover:text-gray-200"
             >{c.projects.viewLabel}
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -286,16 +284,16 @@ const c = await getIntlayer("index", locale);
           >
         </div>
         <div
-          class="group rounded-xl border border-stone-300 bg-white/60 p-6 transition hover:border-stone-400 hover:shadow-md"
+          class="group rounded-xl border border-gray-700 bg-white/5 p-6 transition hover:border-gray-600 hover:shadow-md"
         >
-          <p class="text-xs font-medium text-stone-400">
+          <p class="text-xs font-medium text-gray-500">
             {c.projects.p3Tags}
-          </p><h3 class="mt-2 text-lg font-semibold text-stone-900">
+          </p><h3 class="mt-2 text-lg font-semibold text-white">
             {c.projects.p3Title}
-          </h3><p class="mt-2 text-sm leading-relaxed text-stone-600">
+          </h3><p class="mt-2 text-sm leading-relaxed text-gray-400">
             {c.projects.p3Desc}
           </p><span
-            class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-stone-500 transition group-hover:text-stone-700"
+            class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-gray-400 transition group-hover:text-gray-200"
             >{c.projects.viewLabel}
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -313,16 +311,16 @@ const c = await getIntlayer("index", locale);
           >
         </div>
         <div
-          class="group rounded-xl border border-stone-300 bg-white/60 p-6 transition hover:border-stone-400 hover:shadow-md"
+          class="group rounded-xl border border-gray-700 bg-white/5 p-6 transition hover:border-gray-600 hover:shadow-md"
         >
-          <p class="text-xs font-medium text-stone-400">
+          <p class="text-xs font-medium text-gray-500">
             {c.projects.p4Tags}
-          </p><h3 class="mt-2 text-lg font-semibold text-stone-900">
+          </p><h3 class="mt-2 text-lg font-semibold text-white">
             {c.projects.p4Title}
-          </h3><p class="mt-2 text-sm leading-relaxed text-stone-600">
+          </h3><p class="mt-2 text-sm leading-relaxed text-gray-400">
             {c.projects.p4Desc}
           </p><span
-            class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-stone-500 transition group-hover:text-stone-700"
+            class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-gray-400 transition group-hover:text-gray-200"
             >{c.projects.viewLabel}
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -344,14 +342,14 @@ const c = await getIntlayer("index", locale);
 
     <!-- GITHUB -->
     <section class="px-6 py-16 md:pr-16 lg:pr-24">
-      <span class="text-xs tracking-[0.3em] text-stone-400 uppercase"
+      <span class="text-xs tracking-[0.3em] text-gray-500 uppercase"
         >{c.github.sectionLabel}</span
       >
-      <h2 class="mt-2 text-3xl font-bold text-stone-900 md:text-4xl">
+      <h2 class="mt-2 text-3xl font-bold text-white md:text-4xl">
         {c.github.heading}
       </h2>
       <div
-        class="mt-6 overflow-hidden rounded-xl border border-stone-300 bg-white/60 p-4"
+        class="mt-6 overflow-hidden rounded-xl border border-gray-700 bg-white/5 p-4"
       >
         <img
           src={`https://ghchart.rshah.org/${c.github.username}`}
@@ -364,7 +362,7 @@ const c = await getIntlayer("index", locale);
         href={`https://github.com/${c.github.username}`}
         target="_blank"
         rel="noopener"
-        class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-stone-600 transition hover:text-stone-900"
+        class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-gray-400 transition hover:text-white"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           width="18"
@@ -382,21 +380,21 @@ const c = await getIntlayer("index", locale);
     <section class="px-6 py-16 md:pr-16 lg:pr-24">
       <div class="grid gap-12 sm:grid-cols-2">
         <div>
-          <span class="text-xs tracking-[0.3em] text-stone-400 uppercase"
+          <span class="text-xs tracking-[0.3em] text-gray-500 uppercase"
             >{c.languages.sectionLabel}</span
           >
-          <h2 class="mt-2 text-3xl font-bold text-stone-900 md:text-4xl">
+          <h2 class="mt-2 text-3xl font-bold text-white md:text-4xl">
             {c.languages.heading}
           </h2>
           <div class="mt-6 space-y-4">
             <div>
               <div class="flex justify-between text-sm">
-                <span class="font-medium text-stone-800"
+                <span class="font-medium text-gray-200"
                   >{c.languages.l1Name}</span
-                ><span class="text-stone-500">{c.languages.l1Level}</span>
-              </div><div class="mt-1.5 h-2 w-full rounded-full bg-stone-200">
+                ><span class="text-gray-400">{c.languages.l1Level}</span>
+              </div><div class="mt-1.5 h-2 w-full rounded-full bg-white/10">
                 <div
-                  class="h-2 rounded-full bg-stone-600 transition-all"
+                  class="h-2 rounded-full bg-gray-400 transition-all"
                   style={`width:${c.languages.l1Pct}`}
                 >
                 </div>
@@ -404,12 +402,12 @@ const c = await getIntlayer("index", locale);
             </div>
             <div>
               <div class="flex justify-between text-sm">
-                <span class="font-medium text-stone-800"
+                <span class="font-medium text-gray-200"
                   >{c.languages.l2Name}</span
-                ><span class="text-stone-500">{c.languages.l2Level}</span>
-              </div><div class="mt-1.5 h-2 w-full rounded-full bg-stone-200">
+                ><span class="text-gray-400">{c.languages.l2Level}</span>
+              </div><div class="mt-1.5 h-2 w-full rounded-full bg-white/10">
                 <div
-                  class="h-2 rounded-full bg-stone-600 transition-all"
+                  class="h-2 rounded-full bg-gray-400 transition-all"
                   style={`width:${c.languages.l2Pct}`}
                 >
                 </div>
@@ -418,17 +416,17 @@ const c = await getIntlayer("index", locale);
           </div>
         </div>
         <div>
-          <span class="text-xs tracking-[0.3em] text-stone-400 uppercase"
+          <span class="text-xs tracking-[0.3em] text-gray-500 uppercase"
             >{c.certificates.sectionLabel}</span
           >
-          <h2 class="mt-2 text-3xl font-bold text-stone-900 md:text-4xl">
+          <h2 class="mt-2 text-3xl font-bold text-white md:text-4xl">
             {c.certificates.heading}
           </h2>
           <div class="mt-6 space-y-4">
             <div
-              class="flex items-start gap-3 rounded-lg border border-stone-200 bg-white/60 p-3"
+              class="flex items-start gap-3 rounded-lg border border-gray-800 bg-white/5 p-3"
             >
-              <div class="mt-0.5 shrink-0 text-stone-400">
+              <div class="mt-0.5 shrink-0 text-gray-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
@@ -444,17 +442,17 @@ const c = await getIntlayer("index", locale);
                   ></path></svg
                 >
               </div><div>
-                <p class="text-sm font-medium text-stone-800">
+                <p class="text-sm font-medium text-gray-200">
                   {c.certificates.c1Name}
-                </p><p class="text-xs text-stone-500">
+                </p><p class="text-xs text-gray-400">
                   {c.certificates.c1Org} — {c.certificates.c1Year}
                 </p>
               </div>
             </div>
             <div
-              class="flex items-start gap-3 rounded-lg border border-stone-200 bg-white/60 p-3"
+              class="flex items-start gap-3 rounded-lg border border-gray-800 bg-white/5 p-3"
             >
-              <div class="mt-0.5 shrink-0 text-stone-400">
+              <div class="mt-0.5 shrink-0 text-gray-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
@@ -470,9 +468,9 @@ const c = await getIntlayer("index", locale);
                   ></path></svg
                 >
               </div><div>
-                <p class="text-sm font-medium text-stone-800">
+                <p class="text-sm font-medium text-gray-200">
                   {c.certificates.c2Name}
-                </p><p class="text-xs text-stone-500">
+                </p><p class="text-xs text-gray-400">
                   {c.certificates.c2Org} — {c.certificates.c2Year}
                 </p>
               </div>
@@ -484,16 +482,16 @@ const c = await getIntlayer("index", locale);
 
     <!-- EDUCATION -->
     <section class="px-6 py-16 md:pr-16 lg:pr-24">
-      <span class="text-xs tracking-[0.3em] text-stone-400 uppercase"
+      <span class="text-xs tracking-[0.3em] text-gray-500 uppercase"
         >{c.education.sectionLabel}</span
       >
-      <h2 class="mt-2 text-3xl font-bold text-stone-900 md:text-4xl">
+      <h2 class="mt-2 text-3xl font-bold text-white md:text-4xl">
         {c.education.heading}
       </h2>
       <div class="mt-8 space-y-6">
         <div class="flex gap-4">
           <div
-            class="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-stone-200 text-stone-500"
+            class="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-gray-400"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -510,10 +508,10 @@ const c = await getIntlayer("index", locale);
               ></path></svg
             >
           </div><div>
-            <h3 class="font-semibold text-stone-900">
+            <h3 class="font-semibold text-white">
               {c.education.e1Degree}
-            </h3><p class="text-sm text-stone-500">{c.education.e1School}</p><p
-              class="text-xs text-stone-400"
+            </h3><p class="text-sm text-gray-400">{c.education.e1School}</p><p
+              class="text-xs text-gray-500"
             >
               {c.education.e1Year}
             </p>

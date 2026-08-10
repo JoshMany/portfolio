@@ -15,7 +15,7 @@
 </label> -->
 <div
   id="three-scene"
-  class="relative -z-10 h-[60vh] w-full text-black md:fixed md:top-0 md:left-0 md:h-screen md:min-h-0 md:w-1/2"
+  class="absolute inset-0 -z-10 h-[60vh] w-full text-white md:fixed md:top-0 md:left-0 md:h-screen md:w-1/2"
 >
 </div>
 
@@ -57,7 +57,7 @@
   // ── Mobile detection ─────────────────────────────────────────
   const isMobile = window.matchMedia("(max-width: 767px)").matches;
   const modelScale = isMobile ? 0.9 : 1.2;
-  const asciiResolution = isMobile ? 0.22 : 0.15;
+  const asciiResolution = isMobile ? 0.22 : 0.18;
 
   // ── ASCII effect (wraps the renderer) ─────────────────────────
   const effect = new AsciiEffect(renderer, " .:-=+*#%@", {
@@ -140,19 +140,6 @@
       model.rotation.x = -currentY * 0.1;
     }
 
-    // Luz principal: movimiento sutil
-    pointLight.position.x = 2.5 + Math.sin(t * 0.3) * 0.8;
-    pointLight.position.y = 2 + Math.cos(t * 0.25) * 0.6;
-    pointLight.position.z = 3 + Math.sin(t * 0.2) * 0.5;
-
-    // Rim light: opuesta, movimiento aún más sutil
-    rimLight.position.x = -2 + Math.cos(t * 0.2) * 0.5;
-    rimLight.position.y = 0.5 + Math.sin(t * 0.18) * 0.3;
-    rimLight.position.z = -1 + Math.cos(t * 0.22) * 0.4;
-
-    // Marker sigue a la luz
-    lightMarker.position.copy(pointLight.position);
-
     if (asciiEnabled) {
       effect.render(scene, camera);
     } else {
@@ -183,6 +170,6 @@
   #three-scene table {
     color: rgba(100, 255, 100, 0.18);
     font-family: "Courier New", Courier, monospace;
-    line-height: 1.1;
+    line-height: 1.5;
   }
 </style>
