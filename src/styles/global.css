@@ -1,5 +1,45 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Pixelify+Sans:wght@400..700&family=Silkscreen:wght@400;700&display=swap");
 
 html {
   scroll-behavior: smooth;
+}
+
+@font-face {
+  font-family: Bitroad;
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: swap;
+  src: url("/fonts/Bitroad.otf") format("opentype");
+}
+
+@font-face {
+  font-family: Telefax TM;
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: swap;
+  src: url("/fonts/TelefaxTM.woff2") format("woff2");
+}
+
+@theme {
+  --font-Bitroad: "Bitroad", sans-serif;
+  --font-Telefax: "Telefax TM", sans-serif;
+  --font-pixel: "VT323", monospace;
+  --font-pixel-heading: "Press Start 2P", system-ui;
+  --font-pixel-ui: "Pixelify Sans", sans-serif;
+  --font-pixel-mono: "Silkscreen", monospace;
+}
+
+body {
+  font-family: "VT323", monospace;
+  font-size: 1.125rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Press Start 2P", system-ui;
 }
