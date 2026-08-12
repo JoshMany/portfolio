@@ -2,17 +2,6 @@
 
 ---
 
-<!-- <label
-  id="ascii-toggle"
-  class="fixed top-4 right-4 z-50 flex items-center gap-3 rounded-lg border border-slate-700 bg-slate-900/80 px-4 py-2 backdrop-blur-sm"
->
-  <span class="text-sm text-slate-400 select-none">ASCII</span>
-  <input type="checkbox" checked class="peer sr-only" />
-  <div
-    class="h-5 w-9 rounded-full bg-slate-700 transition peer-checked:bg-green-500 after:absolute after:mt-0.5 after:ml-0.5 after:block after:h-4 after:w-4 after:rounded-full after:bg-white after:transition after:content-[''] peer-checked:after:translate-x-4"
-  >
-  </div>
-</label> -->
 <div
   id="three-scene"
   class="absolute inset-0 -z-10 h-[60vh] w-full text-white md:fixed md:top-0 md:left-0 md:h-screen md:w-1/2"
@@ -22,7 +11,11 @@
 <script>
   import * as THREE from "three";
   import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-  import { AsciiEffect } from "@/components/effects/ascii.js";
+  import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+  import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+  import { RenderPixelatedPass } from "three/examples/jsm/postprocessing/RenderPixelatedPass.js";
+  import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
+  import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 
   const container = document.getElementById("three-scene")!;
 
@@ -31,7 +24,6 @@
   // ── Mobile detection ─────────────────────────────────────────
   const isMobile = window.matchMedia("(max-width: 767px)").matches;
   const modelScale = isMobile ? 1.5 : 1.2;
-  const asciiResolution = isMobile ? 0.22 : 0.18;
 
   // Margen interior (px) para que el modelo no toque los bordes en mobile
   const MOBILE_MARGIN = 28;
@@ -64,44 +56,54 @@
 
   const renderer = new THREE.WebGLRenderer();
 
-  // ── ASCII effect (wraps the renderer) ─────────────────────────
-  const effect = new AsciiEffect(renderer, " .:-=+*#%@", {
-    resolution: asciiResolution,
-    scale: 1,
-    color: false,
-    invert: true,
-  });
+  // ── Post-procesado: pixelado retro ──────────────────────────
+  // Compone la escena a baja resolución y la escala con filtro de vecino
+  // más cercano (efecto "píxel"). El OutputPass aplica corrección de color.
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  const pixelSize = isMobile ? 8 : 12; // más alto = píxeles más grandes/retro
+  composer.addPass(new RenderPixelatedPass(pixelSize, scene, camera));
+
+  // ── Pass de escala de grises (blanco y negro) ────────────────
+  // Convierte cualquier color del objeto a B/N garantizado.
+  const GrayscaleShader = {
+    uniforms: { tDiffuse: { value: null } },
+    vertexShader: /* glsl */ `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: /* glsl */ `
+      uniform sampler2D tDiffuse;
+      varying vec2 vUv;
+      void main() {
+        vec4 color = texture2D(tDiffuse, vUv);
+        float gray = dot(color.rgb, vec3(0.299, 0.587, 0.114));
+        gl_FragColor = vec4(vec3(gray), color.a);
+      }
+    `,
+  };
+  composer.addPass(new ShaderPass(GrayscaleShader));
+  composer.addPass(new OutputPass());
 
   const applySize = () => {
     const { w, h } = getDrawSize();
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
+    // En esta versión de three, EffectComposer.setSize NO redimensiona el
+    // canvas del renderer, así que hay que hacerlo explícitamente.
     renderer.setSize(w, h);
-    effect.setSize(w, h);
+    composer.setSize(w, h);
   };
   applySize();
 
-  container.appendChild(effect.domElement);
-
-  // Canvas crudo (oculto; ASCII visible en todos los dispositivos)
-  renderer.domElement.style.display = "none";
+  // El canvas del renderer muestra el resultado ya pixelado
   container.appendChild(renderer.domElement);
 
-  // ── Toggle ASCII / Raw ──────────────────────────────────────
-  const toggleEl = document.getElementById("ascii-toggle");
-  let asciiEnabled = true;
-
-  if (toggleEl) {
-    const toggle = toggleEl.querySelector("input")!;
-    toggle.addEventListener("change", () => {
-      asciiEnabled = toggle.checked;
-      effect.domElement.style.display = asciiEnabled ? "" : "none";
-      renderer.domElement.style.display = asciiEnabled ? "none" : "";
-    });
-  }
-
   // ── Lights ──────────────────────────────────────────────────
-  // Ambient muy bajo = sombras profundas = alto contraste ASCII
+  // Ambient muy bajo = sombras profundas = alto contraste
   const ambient = new THREE.AmbientLight(0x111133, 0.08);
   scene.add(ambient);
 
@@ -161,11 +163,8 @@
       }
     }
 
-    if (asciiEnabled) {
-      effect.render(scene, camera);
-    } else {
-      renderer.render(scene, camera);
-    }
+    // Render con post-procesado pixelado
+    composer.render();
   }
   renderer.setAnimationLoop(animate);
 
@@ -185,11 +184,5 @@
     display: block;
     max-width: 100%;
     max-height: 100%;
-  }
-  #three-scene table {
-    color: rgba(100, 255, 100, 0.18);
-    font-family: "Courier New", Courier, monospace;
-    line-height: 1.5;
-    flex-shrink: 0;
   }
 </style>
