@@ -12,17 +12,27 @@ const { locale, currentPath } = Astro.props;
 const pathWithoutLocale = currentPath.replace(/^\/(en|es)/, "") || "/";
 ---
 
-<span
-  class="ml-2 flex items-center gap-1 rounded-lg border border-gray-700 bg-white/5 p-1 text-xs font-medium"
+<div
+  class="border-cream/60 flex items-stretch border font-mono text-[0.68rem]"
+  role="group"
+  aria-label="Language switcher"
 >
   <a
     href={`/en${pathWithoutLocale}`}
-    class={`rounded px-2 py-1 transition ${locale === "en" ? "bg-white text-black" : "text-gray-400 hover:text-white"}`}
-    >EN</a
+    class={`flex items-center px-2 py-0.5 uppercase transition ${
+      locale === "en"
+        ? "bg-radio text-ink"
+        : "text-cream/80 hover:bg-cream hover:text-navy"
+    }`}
+    aria-current={locale === "en" ? "true" : undefined}>EN</a
   >
   <a
     href={`/es${pathWithoutLocale}`}
-    class={`rounded px-2 py-1 transition ${locale === "es" ? "bg-white text-black" : "text-gray-400 hover:text-white"}`}
-    }>ES</a
+    class={`flex items-center px-2 py-0.5 uppercase transition ${
+      locale === "es"
+        ? "bg-radio text-ink"
+        : "text-cream/80 hover:bg-cream hover:text-navy"
+    }`}
+    aria-current={locale === "es" ? "true" : undefined}>ES</a
   >
-</span>
+</div>

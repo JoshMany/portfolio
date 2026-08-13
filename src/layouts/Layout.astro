@@ -7,6 +7,7 @@ import {
 } from "intlayer";
 import Navbar from "@/components/Navbar.astro";
 import Footer from "@/components/Footer.astro";
+import LanguageSwitcher from "@/components/LanguageSwitcher.astro";
 
 interface Props {
   locale: LocalesValues;
@@ -25,6 +26,9 @@ const description =
     ? "Full Stack Engineer — React, TypeScript, Python, Django, Next.js. Portfolio & resume."
     : "Full Stack Engineer — React, TypeScript, Python, Django, Next.js. Portafolio y currículum.";
 const ogImage = "/og-image.png";
+
+const statusTime = locale === "en" ? "LOCAL_TIME" : "HORA_LOCAL";
+const statusRes = locale === "en" ? "SIGNAL::OK" : "SEÑAL::OK";
 ---
 
 <!doctype html>
@@ -36,13 +40,13 @@ const ogImage = "/og-image.png";
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Google Fonts: pixel typefaces -->
+    <!-- Google Fonts: grotesque + sans + mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="preload"
       as="style"
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Pixelify+Sans:wght@400..700&family=Silkscreen:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
     />
 
     <title>{siteTitle}</title>
@@ -68,11 +72,51 @@ const ogImage = "/og-image.png";
         : Astro.url.href}
     />
   </head>
-  <body class="font-Bitroad bg-black text-white">
-    <Navbar locale={locale} content={nav} currentPath={Astro.url.pathname} />
-    <main class="flex-1">
-      <slot />
-    </main>
-    <Footer locale={locale} content={footer} />
+  <body class="bg-paper text-ink font-sans" data-theme="editorial">
+    <!-- ── Barra de estado HUD (estilo terminal navy) ── -->
+    <div
+      class="statusbar fixed inset-x-0 top-0 z-50 flex items-center justify-between px-2 py-1 md:px-3"
+    >
+      <div class="flex items-center gap-2">
+        <span class="win-dot win-dot--radio blink"></span>
+        <span class="hidden sm:inline">MANUEL_MUÑOZ::SYS.EXE</span>
+        <span class="text-cream/60 sm:hidden">SYS.EXE</span>
+      </div>
+      <div class="hidden items-center gap-4 md:flex">
+        <span class="text-cream/60">MODE:EDITORIAL</span>
+        <span class="text-cream/60">GRID:96PX</span>
+        <span class="text-cream/60">RENDER:FLAT</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span id="term-clock" class="hidden md:inline">{statusTime}</span>
+        <span class="text-cream/60 hidden lg:inline">{statusRes}</span>
+        <LanguageSwitcher locale={locale} currentPath={Astro.url.pathname} />
+      </div>
+    </div>
+
+    <!-- ── Contenido (con padding superior para la barra HUD) ── -->
+    <div class="pt-7 md:pt-7">
+      <Navbar locale={locale} content={nav} currentPath={Astro.url.pathname} />
+      <main class="flex-1">
+        <slot />
+      </main>
+      <Footer locale={locale} content={footer} />
+    </div>
   </body>
 </html>
+
+<script>
+  // Reloj de terminal en la barra HUD
+  const clockEl = document.getElementById("term-clock");
+  if (clockEl) {
+    const tick = () => {
+      const d = new Date();
+      const hh = String(d.getHours()).padStart(2, "0");
+      const mm = String(d.getMinutes()).padStart(2, "0");
+      const ss = String(d.getSeconds()).padStart(2, "0");
+      clockEl.textContent = `${hh}:${mm}:${ss}`;
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+</script>

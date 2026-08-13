@@ -1,5 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Pixelify+Sans:wght@400..700&family=Silkscreen:wght@400;700&display=swap");
+
+/* ═══════════════════════════════════════════════════════════════════
+   BRUTALIST PIXEL SYSTEM — raw, dense, harsh, zero gloss
+   ═══════════════════════════════════════════════════════════════════ */
 
 html {
   scroll-behavior: smooth;
@@ -14,7 +18,7 @@ html {
 }
 
 @font-face {
-  font-family: Telefax TM;
+  font-family: "Telefax TM";
   font-style: normal;
   font-weight: 200 700;
   font-display: swap;
@@ -22,17 +26,80 @@ html {
 }
 
 @theme {
-  --font-Bitroad: "Bitroad", sans-serif;
-  --font-Telefax: "Telefax TM", sans-serif;
-  --font-pixel: "VT323", monospace;
-  --font-pixel-heading: "Press Start 2P", system-ui;
-  --font-pixel-ui: "Pixelify Sans", sans-serif;
-  --font-pixel-mono: "Silkscreen", monospace;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:
+    "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+
+  /* Paleta "paper editorial" — cofounder.co + OCI/buzzworthy + netcraft */
+  /* Base clara tipo papel: cremas + tinta casi negra */
+  --color-paper: #f5f5f2; /* fondo principal (cofounder) */
+  --color-paper-2: #e8e6e0; /* banda alterna (OCI) */
+  --color-paper-3: #fbfbf8; /* superficie clara (cofounder) */
+  --color-ink: #171717; /* texto principal (cofounder) */
+  --color-ink-soft: #5f5f59; /* texto secundario */
+  --color-ink-faint: #9a9a92; /* texto terciario / huellas */
+  --color-line: #d8d6cf; /* bordes finos */
+
+  /* Acentos */
+  --color-radio: #a3e635; /* lima (cofounder) */
+  --color-navy: #1925aa; /* azul marino (OCI) */
+  --color-blue: #143f99; /* azul (netcraft) */
+  --color-peri: #6170bb; /* azul pizarra (netcraft) */
+  --color-coral: #ff594a; /* coral (netcraft, acento raro) */
+  --color-cream: #fcffda; /* crema sobre navy (netcraft) */
+
+  --color-link: #1925aa;
+  --color-visited: #5b4bb0;
+
+  /* Animaciones pixel */
+  --animate-blink: blink 1s steps(1) infinite;
+  --animate-marquee: marquee 22s linear infinite;
+  --animate-marquee-fast: marquee 12s linear infinite;
+  --animate-flicker: flicker 4s linear infinite;
+}
+
+/* ── Reset radical: nada de redondeos, sombras suaves ni suavizado ── */
+* {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+html {
+  scrollbar-color: var(--color-ink) var(--color-paper);
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+  background: var(--color-paper);
+}
+::-webkit-scrollbar-track {
+  background: var(--color-paper);
+  border-left: 1px solid var(--color-line);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-ink);
+  border: 2px solid var(--color-paper);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-radio);
+}
+::-webkit-scrollbar-corner {
+  background: var(--color-paper);
 }
 
 body {
-  font-family: "VT323", monospace;
-  font-size: 1.125rem;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 h1,
@@ -41,5 +108,361 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Press Start 2P", system-ui;
+  font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  text-transform: none;
+}
+
+p,
+li,
+td,
+th {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--color-navy);
+  color: var(--color-cream);
+}
+
+canvas,
+video {
+  image-rendering: pixelated;
+}
+img {
+  image-rendering: auto;
+}
+
+/* ── Utilidades editoriales (estilo OCI) ────────────────────────── */
+
+/* Rejilla expuesta: hairlines verticales (firma de OCI) */
+@utility grid-bg {
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-line) 1px,
+    transparent 1px
+  );
+  background-size: 96px 96px;
+}
+
+/* Botón primario (navy, plano, estilo OCI) */
+@utility btn-brutal {
+  border: 1px solid var(--color-navy);
+  background: var(--color-navy);
+  color: var(--color-cream);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
+}
+.btn-brutal:hover {
+  background: var(--color-cream);
+  color: var(--color-navy);
+  border-color: var(--color-navy);
+}
+
+/* Botón secundario (outline navy) */
+@utility btn-brutal--navy {
+  background: transparent;
+  color: var(--color-navy);
+  border: 1px solid var(--color-navy);
+}
+.btn-brutal--navy:hover {
+  background: var(--color-navy);
+  color: var(--color-cream);
+}
+
+/* Enlace clásico (navy, subrayado) */
+.link-90s {
+  color: var(--color-link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.link-90s:visited {
+  color: var(--color-visited);
+}
+.link-90s:hover {
+  background: var(--color-navy);
+  color: var(--color-cream);
+  text-decoration: none;
+}
+
+/* Parpadeo de cursor / LED */
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.blink {
+  animation: var(--animate-blink);
+}
+
+/* Marquee (ticker) */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Flicker */
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 0.7;
+  }
+  94% {
+    opacity: 1;
+  }
+  97% {
+    opacity: 0.85;
+  }
+  98% {
+    opacity: 1;
+  }
+}
+.flicker {
+  animation: var(--animate-flicker);
+}
+
+/* Título display masivo */
+.text-mega {
+  font-family: var(--font-display);
+  text-transform: none;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+/* Etiqueta de sección estilo OCI: mono navy + cuadrado */
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-navy);
+}
+.section-tag::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--color-navy);
+  flex-shrink: 0;
+}
+
+/* Inversión al hover (estilo terminal) */
+.invert-hover {
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+.invert-hover:hover {
+  background: var(--color-ink) !important;
+  color: var(--color-cream) !important;
+}
+
+/* Ventana estilo tarjeta editorial */
+.win-window {
+  border: 1px solid var(--color-line);
+  background: var(--color-paper-3);
+}
+.win-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--color-line);
+  background: var(--color-paper);
+  color: var(--color-ink-soft);
+  padding: 8px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.win-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--color-line);
+}
+.win-dot--radio {
+  background: var(--color-radio);
+}
+.win-dot--navy {
+  background: var(--color-navy);
+}
+
+/* Tabla densa */
+.dense-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.dense-table th,
+.dense-table td {
+  border: 1px solid var(--color-line);
+  padding: 10px 12px;
+  vertical-align: top;
+  text-align: left;
+}
+.dense-table th {
+  background: var(--color-navy);
+  color: var(--color-cream);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── Mobile: la tabla se convierte en tarjetas apiladas ── */
+@media (max-width: 639px) {
+  .dense-table,
+  .dense-table tbody,
+  .dense-table tr,
+  .dense-table td {
+    display: block;
+    width: 100%;
+  }
+  .dense-table thead {
+    display: none;
+  }
+  .dense-table tr {
+    border: 1px solid var(--color-line);
+    background: var(--color-paper-3);
+    padding: 14px 16px;
+    margin: 0 0 12px;
+  }
+  .dense-table td {
+    border: 0;
+    padding: 3px 0;
+  }
+  .dense-table td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 2px;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-navy);
+  }
+}
+
+/* Barra de progreso segmentada (sutil) */
+.pixel-progress {
+  display: flex;
+  gap: 2px;
+  height: 6px;
+}
+.pixel-progress span {
+  display: block;
+  height: 100%;
+  flex: 1;
+  background: var(--color-line);
+}
+.pixel-progress span.hot {
+  background: var(--color-navy);
+}
+
+/* Barra de estado superior (navy) */
+.statusbar {
+  border-bottom: 1px solid var(--color-line);
+  background: var(--color-navy);
+  color: var(--color-cream);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Tag tech */
+.tech-tag {
+  border: 1px solid var(--color-line);
+  background: var(--color-paper-3);
+  padding: 5px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-ink-soft);
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
+}
+.tech-tag:hover {
+  background: var(--color-navy);
+  color: var(--color-cream);
+  border-color: var(--color-navy);
+}
+
+/* Borde discontinuo decorativo */
+.dashed-line {
+  border-top: 1px dashed var(--color-line);
+}
+
+/* ── Tarjeta de proyecto ── */
+.proj-card {
+  position: relative;
+  border: 1px solid var(--color-line);
+  background: var(--color-paper-3);
+  transition: border-color 150ms ease;
+}
+.proj-card:hover {
+  border-color: var(--color-navy);
+}
+
+/* ── Etiqueta de cabecera de archivo ── */
+.file-tab {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+/* ── Célula de stack con rejilla visible ── */
+.stack-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: var(--color-paper-3);
+  padding: 8px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+.stack-cell:hover {
+  background: var(--color-navy);
+  color: var(--color-cream);
 }

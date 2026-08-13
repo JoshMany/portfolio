@@ -2,10 +2,36 @@
 
 ---
 
-<div
-  id="three-scene"
-  class="absolute inset-0 -z-10 h-[60vh] w-full text-white md:fixed md:top-0 md:left-0 md:h-screen md:w-1/2"
->
+<div id="three-scene" class="win-window flex h-full w-full flex-col">
+  <div class="win-titlebar">
+    <span class="win-dot win-dot--radio blink"></span>
+    <span>SIM://CHANGO.GLB</span>
+    <span class="ml-auto flex items-center gap-1">
+      <span class="win-dot"></span>
+      <span class="win-dot win-dot--navy"></span>
+    </span>
+  </div>
+  <div
+    id="three-viewport"
+    class="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-black"
+  >
+    <span
+      class="border-cream/40 text-coral pointer-events-none absolute top-2 left-2 z-10 border bg-black px-1.5 py-0.5 font-mono text-[0.62rem] uppercase"
+      >● LIVE</span
+    >
+    <span
+      class="border-cream/40 text-cream/70 pointer-events-none absolute top-2 right-2 z-10 border bg-black px-1.5 py-0.5 font-mono text-[0.62rem] uppercase"
+      >1-BIT DITHER</span
+    >
+    <span
+      class="text-cream/50 pointer-events-none absolute bottom-2 left-2 z-10 font-mono text-[0.62rem] uppercase"
+      >[MOUSE]::TRACK</span
+    >
+    <span
+      class="text-cream/50 pointer-events-none absolute right-2 bottom-2 z-10 font-mono text-[0.62rem] uppercase"
+      >FPS:60</span
+    >
+  </div>
 </div>
 
 <script>
@@ -13,11 +39,10 @@
   import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
   import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
   import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
-  import { RenderPixelatedPass } from "three/examples/jsm/postprocessing/RenderPixelatedPass.js";
   import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
   import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 
-  const container = document.getElementById("three-scene")!;
+  const container = document.getElementById("three-viewport")!;
 
   const scene = new THREE.Scene();
 
@@ -56,17 +81,13 @@
 
   const renderer = new THREE.WebGLRenderer();
 
-  // ── Post-procesado: pixelado retro ──────────────────────────
-  // Compone la escena a baja resolución y la escala con filtro de vecino
-  // más cercano (efecto "píxel"). El OutputPass aplica corrección de color.
+  // ── Post-procesado: dithering retro (B/N) ────────────────────
+  // Convierte la escena a blanco y negro y aplica dithering ordenado
+  // con matriz Bayer 4x4 → aspecto retro de 1 bit.
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
-  const pixelSize = isMobile ? 8 : 12; // más alto = píxeles más grandes/retro
-  composer.addPass(new RenderPixelatedPass(pixelSize, scene, camera));
 
-  // ── Pass de escala de grises (blanco y negro) ────────────────
-  // Convierte cualquier color del objeto a B/N garantizado.
-  const GrayscaleShader = {
+  const DitherShader = {
     uniforms: { tDiffuse: { value: null } },
     vertexShader: /* glsl */ `
       varying vec2 vUv;
@@ -78,14 +99,49 @@
     fragmentShader: /* glsl */ `
       uniform sampler2D tDiffuse;
       varying vec2 vUv;
+
+      // Matriz Bayer 4x4 para dithering ordenado
+      const int BAYER[16] = int[16](
+        0,  8,  2, 10,
+        12, 4,  14, 6,
+        3,  11, 1,  9,
+        15, 7,  13, 5
+      );
+
+      // Patrón más grueso: divisor del dither (mayor = bloques más grandes)
+      const float DITHER_BLOCK = 2.5;
+
+      float bayer4(vec2 coord) {
+        ivec2 p = ivec2(mod(coord / DITHER_BLOCK, 4.0));
+        return (float(BAYER[p.y * 4 + p.x]) + 0.5) / 16.0;
+      }
+
       void main() {
         vec4 color = texture2D(tDiffuse, vUv);
+        // Luminancia perceptiva (blanco y negro)
         float gray = dot(color.rgb, vec3(0.299, 0.587, 0.114));
-        gl_FragColor = vec4(vec3(gray), color.a);
+        // Contraste reforzado (curva en S) para un look más duro/retro
+        gray = clamp((gray - 0.5) * 1.7 + 0.5, 0.0, 1.0);
+        gray = gray * gray * (3.0 - 2.0 * gray);
+
+        // Dithering Bayer: si el gris supera el umbral → blanco, si no → negro
+        float threshold = bayer4(gl_FragCoord.xy);
+        float outVal = step(threshold, gray);
+
+        // Scanlines CRT: oscurece una fila cada 3
+        float scanline = mod(floor(gl_FragCoord.y), 3.0) == 0.0 ? 0.55 : 1.0;
+        outVal *= scanline;
+
+        // Viñeta sutil (esquinas más oscuras como en monitores viejos)
+        vec2 vp = vUv - 0.5;
+        float vignette = 1.0 - dot(vp, vp) * 1.2;
+        outVal *= clamp(vignette, 0.0, 1.0);
+
+        gl_FragColor = vec4(vec3(outVal), color.a);
       }
     `,
   };
-  composer.addPass(new ShaderPass(GrayscaleShader));
+  composer.addPass(new ShaderPass(DitherShader));
   composer.addPass(new OutputPass());
 
   const applySize = () => {
@@ -174,15 +230,13 @@
 </script>
 
 <style>
-  #three-scene {
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  #three-viewport {
+    background: #000;
   }
-  #three-scene canvas {
+  #three-viewport canvas {
     display: block;
     max-width: 100%;
     max-height: 100%;
+    image-rendering: pixelated;
   }
 </style>

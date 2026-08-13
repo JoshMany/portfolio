@@ -111,11 +111,11 @@ const indexContent = {
         en: "Open-source files that replicate IKEA desk furniture for public use. Don't buy it, have it custom-made. A creative approach to accessible furniture design.",
         es: "Archivos open-source que replican muebles de escritorio de Ikea para uso público. No lo compres, mándalo a hacer. Un enfoque creativo al diseño de muebles accesibles.",
       }),
-      p4Title: "3D ASCII Portfolio",
-      p4Tags: "Three.js · Astro · TypeScript",
+      p4Title: "portfolio-astro",
+      p4Tags: "Astro · TypeScript · Intlayer",
       p4Desc: t({
-        en: "Interactive portfolio with 3D scenes and ASCII rendering effects. The site you're viewing right now — built with Astro, Three.js, and custom ASCII shader effects.",
-        es: "Portafolio interactivo con escenas 3D y efectos de renderizado ASCII. El sitio que estás viendo — construido con Astro, Three.js y efectos ASCII personalizados.",
+        en: "Bilingual editorial portfolio built with Astro and Intlayer. Clean, mobile-first design with a technical, OCI-inspired aesthetic.",
+        es: "Portafolio editorial bilingüe construido con Astro e Intlayer. Diseño limpio mobile-first con estética técnica inspirada en OCI.",
       }),
     },
     github: {
