@@ -1,4 +1,5 @@
 ---
+import SectionTitle from "@/components/index/SectionTitle.astro";
 import Layout from "@/layouts/Layout.astro";
 import "@/styles/global.css";
 import {
@@ -8,6 +9,7 @@ import {
   localeMap,
   type LocalesValues,
 } from "intlayer";
+import { CubeCamera } from "three";
 
 export const getStaticPaths = () => {
   return localeMap(({ locale }) => ({
@@ -84,7 +86,7 @@ const pctToSegments = (pct: string) =>
           <a
             href="/José_Manuel_Muñoz_García_Resume_2026.pdf"
             download
-            class="btn-brutal w-full px-6 py-3.5 text-center sm:w-auto"
+            class="bg-navy border-navy hover:text-navy w-full border px-6 py-3.5 text-center font-mono text-[0.75rem] text-white uppercase hover:bg-white sm:w-auto"
             ><span class="text-cream">[↓]</span> {c.hero.downloadCv}</a
           >
           <a
@@ -146,10 +148,13 @@ const pctToSegments = (pct: string) =>
     id="about"
     class="border-line bg-paper-2 border-b px-5 py-16 md:px-10"
   >
-    <span class="section-tag">0://{c.about.sectionLabel}</span>
-    <h2 class="text-ink mt-5 text-3xl md:text-4xl">
-      {c.about.heading}
-    </h2>
+    <SectionTitle
+      locale={locale}
+      number={0}
+      title={c.about.heading}
+      label={c.about.sectionLabel}
+    />
+
     <div class="mt-8 grid md:grid-cols-12">
       <div class="border-line bg-paper-3 border p-6 md:col-span-7">
         <p class="text-ink-soft leading-relaxed">{c.about.p1}</p>
@@ -205,12 +210,12 @@ const pctToSegments = (pct: string) =>
   <!-- ═══════════════ STACK ═══════════════ -->
   <section id="stack" class="border-line bg-paper border-b px-5 py-16 md:px-10">
     <div class="flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <span class="section-tag">1://{c.stack.sectionLabel}</span>
-        <h2 class="text-ink mt-5 text-3xl md:text-4xl">
-          {c.stack.heading}
-        </h2>
-      </div>
+      <SectionTitle
+        locale={locale}
+        number={1}
+        title={c.stack.heading}
+        label={c.stack.sectionLabel}
+      />
       <span class="text-ink-faint font-mono text-[0.68rem] uppercase"
         >REG:{techs.length}</span
       >
@@ -235,12 +240,12 @@ const pctToSegments = (pct: string) =>
     class="border-line bg-paper-2 border-b px-5 py-16 md:px-10"
   >
     <div class="flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <span class="section-tag">2://{c.timeline.sectionLabel}</span>
-        <h2 class="text-ink mt-5 text-3xl md:text-4xl">
-          {c.timeline.heading}
-        </h2>
-      </div>
+      <SectionTitle
+        locale={locale}
+        number={2}
+        title={c.timeline.heading}
+        label={c.timeline.sectionLabel}
+      />
       <span class="text-ink-faint font-mono text-[0.68rem] uppercase"
         >SINCE_2017</span
       >
@@ -333,12 +338,13 @@ const pctToSegments = (pct: string) =>
     class="border-line bg-paper border-b px-5 py-16 md:px-10"
   >
     <div class="flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <span class="section-tag">3://{c.projects.sectionLabel}</span>
-        <h2 class="text-ink mt-5 text-3xl md:text-4xl">
-          {c.projects.heading}
-        </h2>
-      </div>
+      <SectionTitle
+        locale={locale}
+        number={3}
+        title={c.projects.heading}
+        label={c.projects.sectionLabel}
+      />
+
       <span class="text-ink-faint font-mono text-[0.68rem] uppercase"
         >DIR:~/projects</span
       >
@@ -438,12 +444,13 @@ const pctToSegments = (pct: string) =>
   <!-- ═══════════════ GITHUB ═══════════════ -->
   <section class="border-line bg-paper-2 border-b px-5 py-16 md:px-10">
     <div class="flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <span class="section-tag">4://{c.github.sectionLabel}</span>
-        <h2 class="text-ink mt-5 text-3xl md:text-4xl">
-          {c.github.heading}
-        </h2>
-      </div>
+      <SectionTitle
+        locale={locale}
+        number={4}
+        title={c.github.heading}
+        label={c.github.sectionLabel}
+      />
+
       <span class="text-ink-faint font-mono text-[0.68rem] uppercase"
         >SOURCE:GH</span
       >
@@ -482,11 +489,13 @@ const pctToSegments = (pct: string) =>
   <section class="border-line bg-paper border-b px-5 py-16 md:px-10">
     <div class="grid gap-10 md:grid-cols-2">
       <!-- LANGUAGES -->
+      <SectionTitle
+        locale={locale}
+        number={5}
+        title={c.languages.heading}
+        label={c.languages.sectionLabel}
+      />
       <div>
-        <span class="section-tag">5://{c.languages.sectionLabel}</span>
-        <h2 class="text-ink mt-5 text-3xl md:text-4xl">
-          {c.languages.heading}
-        </h2>
         <div class="mt-8 space-y-5">
           <div class="border-line bg-paper-3 border p-5">
             <div
@@ -527,10 +536,13 @@ const pctToSegments = (pct: string) =>
 
       <!-- CERTIFICATES -->
       <div>
-        <span class="section-tag">6://{c.certificates.sectionLabel}</span>
-        <h2 class="text-ink mt-5 text-3xl md:text-4xl">
-          {c.certificates.heading}
-        </h2>
+        <SectionTitle
+          locale={locale}
+          number={6}
+          title={c.certificates.heading}
+          label={c.certificates.sectionLabel}
+        />
+
         <div class="mt-8 space-y-5">
           <div
             class="border-line bg-paper-3 flex items-start gap-3.5 border p-5"
@@ -571,10 +583,13 @@ const pctToSegments = (pct: string) =>
 
   <!-- ═══════════════ EDUCATION ═══════════════ -->
   <section class="border-line bg-paper-2 border-b px-5 py-16 md:px-10">
-    <span class="section-tag">7://{c.education.sectionLabel}</span>
-    <h2 class="text-ink mt-5 text-3xl md:text-4xl">
-      {c.education.heading}
-    </h2>
+    <SectionTitle
+      locale={locale}
+      number={6}
+      title={c.education.heading}
+      label={c.education.sectionLabel}
+    />
+
     <div class="border-line bg-paper-3 mt-8 max-w-2xl border">
       <div class="grid sm:grid-cols-[110px_1fr]">
         <div
