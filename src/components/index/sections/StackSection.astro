@@ -1,0 +1,53 @@
+---
+import { getLocaleFromPath } from "intlayer";
+import SectionTitle from "../SectionTitle.astro";
+import { getIntlayer } from "intlayer";
+import type { LocalesValues } from "intlayer";
+
+const locale = getLocaleFromPath(Astro.url.pathname) as LocalesValues;
+const c = await getIntlayer("index", locale);
+
+const techs = [
+  "TypeScript",
+  "React",
+  "Next.js",
+  "Python",
+  "Django",
+  "Laravel",
+  "PHP",
+  "Node.js",
+  "PostgreSQL",
+  "MySQL",
+  "Tailwind",
+  "Docker",
+  "Git",
+  "REST APIs",
+  "Three.js",
+  "Astro",
+];
+---
+
+<section id="stack" class="border-line bg-paper border-b px-5 py-16 md:px-10">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <SectionTitle
+      number={1}
+      title={c.stack.heading}
+      label={c.stack.sectionLabel}
+    />
+    <span class="text-ink-faint font-mono text-[0.68rem] uppercase"
+      >REG:{techs.length}</span
+    >
+  </div>
+  <div
+    class="border-line bg-line mt-8 grid grid-cols-2 gap-px border sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+  >
+    {
+      techs.map((t) => (
+        <div class="stack-cell">
+          <span>{t}</span>
+          <span class="text-[0.6rem] opacity-50">▸</span>
+        </div>
+      ))
+    }
+  </div>
+</section>

@@ -1,0 +1,52 @@
+---
+import { getIntlayer } from "intlayer";
+import SectionTitle from "../SectionTitle.astro";
+import { getLocaleFromPath } from "intlayer";
+import type { LocalesValues } from "intlayer";
+
+const locale = getLocaleFromPath(Astro.url.pathname) as LocalesValues;
+const c = await getIntlayer("index", locale);
+---
+
+<section class="border-line bg-paper border-b px-5 py-16 md:px-10">
+  <div class="grid gap-10 md:grid-cols-2">
+    <SectionTitle
+      number={6}
+      title={c.certificates.heading}
+      label={c.certificates.sectionLabel}
+    />
+
+    <div>
+      <div class="mt-8 space-y-5">
+        <div class="border-line bg-paper-3 flex items-start gap-3.5 border p-5">
+          <span
+            class="border-navy text-navy mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center border font-mono text-[0.62rem]"
+            >✓</span
+          >
+          <div>
+            <p class="text-ink font-mono text-[0.75rem] uppercase">
+              {c.certificates.c1Name}
+            </p>
+            <p class="text-ink-soft mt-1 text-[0.82rem]">
+              {c.certificates.c1Org} — {c.certificates.c1Year}
+            </p>
+          </div>
+        </div>
+        <div class="border-line bg-paper-3 flex items-start gap-3.5 border p-5">
+          <span
+            class="border-navy text-navy mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center border font-mono text-[0.62rem]"
+            >✓</span
+          >
+          <div>
+            <p class="text-ink font-mono text-[0.75rem] uppercase">
+              {c.certificates.c2Name}
+            </p>
+            <p class="text-ink-soft mt-1 text-[0.82rem]">
+              {c.certificates.c2Org} — {c.certificates.c2Year}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

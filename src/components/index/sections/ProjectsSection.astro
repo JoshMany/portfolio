@@ -1,0 +1,116 @@
+---
+import { getIntlayer } from "intlayer";
+import SectionTitle from "../SectionTitle.astro";
+import { getLocaleFromPath } from "intlayer";
+import type { LocalesValues } from "intlayer";
+
+const locale = getLocaleFromPath(Astro.url.pathname) as LocalesValues;
+const c = await getIntlayer("index", locale);
+---
+
+<section
+  id="projects"
+  class="border-line bg-paper border-b px-5 py-16 md:px-10"
+>
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <SectionTitle
+      number={3}
+      title={c.projects.heading}
+      label={c.projects.sectionLabel}
+    />
+
+    <span class="text-ink-faint font-mono text-[0.68rem] uppercase"
+      >DIR:~/projects</span
+    >
+  </div>
+  <div class="mt-8 grid gap-5 sm:grid-cols-2">
+    <article class="proj-card p-6">
+      <div
+        class="border-line flex items-center justify-between gap-2 border-b pb-2.5"
+      >
+        <span class="file-tab">FILE://01</span>
+        <span class="flex gap-1.5"
+          ><span class="win-dot"></span><span class="win-dot win-dot--navy"
+          ></span></span
+        >
+      </div>
+      <p class="text-navy mt-4 font-mono text-[0.68rem] uppercase">
+        {c.projects.p1Tags}
+      </p>
+      <h3 class="text-ink mt-2 text-lg">{c.projects.p1Title}</h3>
+      <p class="text-ink-soft mt-2 text-[0.9rem] leading-relaxed">
+        {c.projects.p1Desc}
+      </p>
+      <span
+        class="text-ink-soft mt-4 inline-flex items-center gap-1.5 font-mono text-[0.72rem] uppercase"
+        ><span class="text-navy">/</span> {c.projects.viewLabel}_</span
+      >
+    </article>
+    <article class="proj-card p-6">
+      <div
+        class="border-line flex items-center justify-between gap-2 border-b pb-2.5"
+      >
+        <span class="file-tab">FILE://02</span>
+        <span class="flex gap-1.5"
+          ><span class="win-dot"></span><span class="win-dot win-dot--navy"
+          ></span></span
+        >
+      </div>
+      <p class="text-navy mt-4 font-mono text-[0.68rem] uppercase">
+        {c.projects.p2Tags}
+      </p>
+      <h3 class="text-ink mt-2 text-lg">{c.projects.p2Title}</h3>
+      <p class="text-ink-soft mt-2 text-[0.9rem] leading-relaxed">
+        {c.projects.p2Desc}
+      </p>
+      <span
+        class="text-ink-soft mt-4 inline-flex items-center gap-1.5 font-mono text-[0.72rem] uppercase"
+        ><span class="text-navy">/</span> {c.projects.viewLabel}_</span
+      >
+    </article>
+    <article class="proj-card p-6">
+      <div
+        class="border-line flex items-center justify-between gap-2 border-b pb-2.5"
+      >
+        <span class="file-tab">FILE://03</span>
+        <span class="flex gap-1.5"
+          ><span class="win-dot"></span><span class="win-dot win-dot--navy"
+          ></span></span
+        >
+      </div>
+      <p class="text-navy mt-4 font-mono text-[0.68rem] uppercase">
+        {c.projects.p3Tags}
+      </p>
+      <h3 class="text-ink mt-2 text-lg">{c.projects.p3Title}</h3>
+      <p class="text-ink-soft mt-2 text-[0.9rem] leading-relaxed">
+        {c.projects.p3Desc}
+      </p>
+      <span
+        class="text-ink-soft mt-4 inline-flex items-center gap-1.5 font-mono text-[0.72rem] uppercase"
+        ><span class="text-navy">/</span> {c.projects.viewLabel}_</span
+      >
+    </article>
+    <article class="proj-card p-6">
+      <div
+        class="border-line flex items-center justify-between gap-2 border-b pb-2.5"
+      >
+        <span class="file-tab">FILE://04</span>
+        <span class="flex gap-1.5"
+          ><span class="win-dot"></span><span class="win-dot win-dot--navy"
+          ></span></span
+        >
+      </div>
+      <p class="text-navy mt-4 font-mono text-[0.68rem] uppercase">
+        {c.projects.p4Tags}
+      </p>
+      <h3 class="text-ink mt-2 text-lg">{c.projects.p4Title}</h3>
+      <p class="text-ink-soft mt-2 text-[0.9rem] leading-relaxed">
+        {c.projects.p4Desc}
+      </p>
+      <span
+        class="text-ink-soft mt-4 inline-flex items-center gap-1.5 font-mono text-[0.72rem] uppercase"
+        ><span class="text-navy">/</span> {c.projects.viewLabel}_</span
+      >
+    </article>
+  </div>
+</section>

@@ -1,0 +1,61 @@
+---
+import { getIntlayer } from "intlayer";
+import SectionTitle from "../SectionTitle.astro";
+import { getLocaleFromPath } from "intlayer";
+import type { LocalesValues } from "intlayer";
+
+const locale = getLocaleFromPath(Astro.url.pathname) as LocalesValues;
+const c = await getIntlayer("index", locale);
+
+// Segmentos de barra de progreso pixel
+const pctToSegments = (pct: string) =>
+  Math.round((parseInt(pct, 10) / 100) * 20);
+---
+
+<section class="border-line bg-paper border-b px-5 py-16 md:px-10">
+  <div class="grid gap-10 md:grid-cols-2">
+    <SectionTitle
+      number={5}
+      title={c.languages.heading}
+      label={c.languages.sectionLabel}
+    />
+    <div>
+      <div class="mt-8 space-y-5">
+        <div class="border-line bg-paper-3 border p-5">
+          <div
+            class="flex items-center justify-between gap-2 font-mono text-[0.72rem] uppercase"
+          >
+            <span class="text-ink">{c.languages.l1Name}</span>
+            <span class="text-navy">{c.languages.l1Level}</span>
+          </div>
+          <div class="pixel-progress mt-3.5">
+            {
+              Array.from({ length: 20 }).map((_, i) => (
+                <span
+                  class={i < pctToSegments(c.languages.l1Pct) ? "hot" : "off"}
+                />
+              ))
+            }
+          </div>
+        </div>
+        <div class="border-line bg-paper-3 border p-5">
+          <div
+            class="flex items-center justify-between gap-2 font-mono text-[0.72rem] uppercase"
+          >
+            <span class="text-ink">{c.languages.l2Name}</span>
+            <span class="text-coral">{c.languages.l2Level}</span>
+          </div>
+          <div class="pixel-progress mt-3.5">
+            {
+              Array.from({ length: 20 }).map((_, i) => (
+                <span
+                  class={i < pctToSegments(c.languages.l2Pct) ? "hot" : "off"}
+                />
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

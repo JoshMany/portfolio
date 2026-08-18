@@ -1,0 +1,105 @@
+---
+import { getIntlayer } from "intlayer";
+import SectionTitle from "../SectionTitle.astro";
+import { getLocaleFromPath } from "intlayer";
+import type { LocalesValues } from "intlayer";
+
+const locale = getLocaleFromPath(Astro.url.pathname) as LocalesValues;
+const c = await getIntlayer("index", locale);
+---
+
+<section
+  id="timeline"
+  class="border-line bg-paper-2 border-b px-5 py-16 md:px-10"
+>
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <SectionTitle
+      number={2}
+      title={c.timeline.heading}
+      label={c.timeline.sectionLabel}
+    />
+    <span class="text-ink-faint font-mono text-[0.68rem] uppercase"
+      >SINCE_2017</span
+    >
+  </div>
+  <div
+    class="border-line bg-paper-3 mt-8 overflow-x-auto border sm:overflow-visible"
+  >
+    <table class="dense-table sm:min-w-180">
+      <thead>
+        <tr>
+          <th class="w-44">DATE</th>
+          <th class="w-48">ROLE</th>
+          <th class="w-56">COMPANY</th>
+          <th>DESCRIPTION</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td
+            data-label="Date"
+            class="text-ink-faint font-mono text-[0.72rem] uppercase"
+            >{c.timeline.t1Year}</td
+          >
+          <td data-label="Role" class="text-ink text-[0.9rem] font-medium"
+            >{c.timeline.t1Role}</td
+          >
+          <td data-label="Company" class="text-navy text-[0.85rem]"
+            >{c.timeline.t1Company}</td
+          >
+          <td data-label="Description" class="text-ink-soft text-[0.88rem]"
+            >{c.timeline.t1Desc}</td
+          >
+        </tr>
+        <tr>
+          <td
+            data-label="Date"
+            class="text-ink-faint font-mono text-[0.72rem] uppercase"
+            >{c.timeline.t2Year}</td
+          >
+          <td data-label="Role" class="text-ink text-[0.9rem] font-medium"
+            >{c.timeline.t2Role}</td
+          >
+          <td data-label="Company" class="text-navy text-[0.85rem]"
+            >{c.timeline.t2Company}</td
+          >
+          <td data-label="Description" class="text-ink-soft text-[0.88rem]"
+            >{c.timeline.t2Desc}</td
+          >
+        </tr>
+        <tr>
+          <td
+            data-label="Date"
+            class="text-ink-faint font-mono text-[0.72rem] uppercase"
+            >{c.timeline.t3Year}</td
+          >
+          <td data-label="Role" class="text-ink text-[0.9rem] font-medium"
+            >{c.timeline.t3Role}</td
+          >
+          <td data-label="Company" class="text-navy text-[0.85rem]"
+            >{c.timeline.t3Company}</td
+          >
+          <td data-label="Description" class="text-ink-soft text-[0.88rem]"
+            >{c.timeline.t3Desc}</td
+          >
+        </tr>
+        <tr>
+          <td
+            data-label="Date"
+            class="text-ink-faint font-mono text-[0.72rem] uppercase"
+            >{c.timeline.t4Year}</td
+          >
+          <td data-label="Role" class="text-ink text-[0.9rem] font-medium"
+            >{c.timeline.t4Role}</td
+          >
+          <td data-label="Company" class="text-navy text-[0.85rem]"
+            >{c.timeline.t4Company}</td
+          >
+          <td data-label="Description" class="text-ink-soft text-[0.88rem]"
+            >{c.timeline.t4Desc}</td
+          >
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

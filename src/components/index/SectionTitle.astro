@@ -1,8 +1,5 @@
 ---
-import { type LocalesValues } from "intlayer";
-
 interface Props {
-  locale: LocalesValues;
   number: number;
   label: string;
   title: string;
@@ -19,5 +16,5 @@ const { number, label, title } = Astro.props;
     {number}://{" "}
     <span class="text-navy">{label}</span>
   </h2>
-  <h3 class="text-[7vw] leading-tight md:text-4xl">{title}</h3>
+  <h3 class="text-[7vw] leading-tight md:text-3xl">{title}</h3>
 </div>
