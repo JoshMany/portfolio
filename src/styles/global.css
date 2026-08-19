@@ -129,45 +129,15 @@ img {
 
 /* ── Utilidades editoriales (estilo OCI) ────────────────────────── */
 
-/* Rejilla expuesta: hairlines verticales (firma de OCI) */
-@utility grid-bg {
-  background-image: repeating-linear-gradient(
+/* Rejilla expuesta: hairlines verticales visibles (firma de OCI) */
+.grid-bg {
+  background-image: linear-gradient(
     to right,
-    var(--color-line) 1px,
+    var(--color-ink-soft) 1px,
     transparent 1px
   );
-  background-size: 96px 96px;
-}
-
-/* Botón primario (navy, plano, estilo OCI) */
-@utility btn-brutal {
-  border: 1px solid var(--color-navy);
-  background: var(--color-navy);
-  color: var(--color-cream) !important;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transition:
-    background-color 150ms ease,
-    color 150ms ease,
-    border-color 150ms ease;
-}
-.btn-brutal:hover {
-  background: var(--color-white);
-  color: var(--color-navy) !important;
-  border-color: var(--color-navy);
-}
-
-/* Botón secundario (outline navy) */
-@utility btn-brutal--navy {
-  background: transparent;
-  color: var(--color-navy);
-  border: 1px solid var(--color-navy);
-}
-.btn-brutal--navy:hover {
-  background: var(--color-navy);
-  color: var(--color-cream);
+  background-size: 96px 100%;
+  background-position: 0 0;
 }
 
 /* Enlace clásico (navy, subrayado) */
