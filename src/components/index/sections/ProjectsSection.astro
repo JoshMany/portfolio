@@ -8,10 +8,7 @@ const locale = getLocaleFromPath(Astro.url.pathname) as LocalesValues;
 const c = await getIntlayer("index", locale);
 ---
 
-<section
-  id="projects"
-  class="border-line bg-paper border-b px-5 py-16 md:px-10"
->
+<section id="projects" class="border-line bg-paper border-b px-5 py-9 md:px-10">
   <div class="flex flex-wrap items-end justify-between gap-4">
     <SectionTitle
       number={3}

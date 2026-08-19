@@ -27,7 +27,7 @@ const techs = [
 ];
 ---
 
-<section id="stack" class="border-line bg-paper border-b px-5 py-16 md:px-10">
+<section id="stack" class="border-line bg-paper border-b px-5 py-9 md:px-10">
   <div class="flex flex-wrap items-end justify-between gap-4">
     <SectionTitle
       number={1}
@@ -39,13 +39,13 @@ const techs = [
     >
   </div>
   <div
-    class="border-line bg-line mt-8 grid grid-cols-2 gap-px border sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+    class="border-line bg-line mt-8 grid grid-cols-2 gap-px border sm:grid-cols-3 md:grid-cols-4"
   >
     {
       techs.map((t) => (
         <div class="stack-cell">
           <span>{t}</span>
-          <span class="text-[0.6rem] opacity-50">▸</span>
+          <span class="text-[0.9rem] opacity-50">▸</span>
         </div>
       ))
     }

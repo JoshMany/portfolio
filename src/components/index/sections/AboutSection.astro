@@ -8,7 +8,7 @@ const locale = getLocaleFromPath(Astro.url.pathname) as LocalesValues;
 const c = await getIntlayer("index", locale);
 ---
 
-<section id="about" class="border-line bg-paper-2 border-b px-5 py-16 md:px-10">
+<section id="about" class="border-line bg-paper-2 border-b px-5 py-9 md:px-10">
   <SectionTitle
     number={0}
     title={c.about.heading}
