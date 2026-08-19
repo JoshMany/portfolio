@@ -13,7 +13,7 @@ const pathWithoutLocale = currentPath.replace(/^\/(en|es)/, "") || "/";
 ---
 
 <div
-  class="border-cream/60 flex items-stretch border font-mono text-[0.68rem]"
+  class="border-line flex items-stretch border font-mono text-[0.68rem]"
   role="group"
   aria-label="Language switcher"
 >
@@ -21,8 +21,8 @@ const pathWithoutLocale = currentPath.replace(/^\/(en|es)/, "") || "/";
     href={`/en${pathWithoutLocale}`}
     class={`flex items-center px-2 py-0.5 uppercase transition ${
       locale === "en"
-        ? "bg-radio text-ink"
-        : "text-cream/80 hover:bg-cream hover:text-navy"
+        ? "bg-navy text-cream"
+        : "text-ink-soft hover:bg-paper-2 hover:text-ink"
     }`}
     aria-current={locale === "en" ? "true" : undefined}>EN</a
   >
@@ -30,8 +30,8 @@ const pathWithoutLocale = currentPath.replace(/^\/(en|es)/, "") || "/";
     href={`/es${pathWithoutLocale}`}
     class={`flex items-center px-2 py-0.5 uppercase transition ${
       locale === "es"
-        ? "bg-radio text-ink"
-        : "text-cream/80 hover:bg-cream hover:text-navy"
+        ? "bg-navy text-cream"
+        : "text-ink-soft hover:bg-paper-2 hover:text-ink"
     }`}
     aria-current={locale === "es" ? "true" : undefined}>ES</a
   >

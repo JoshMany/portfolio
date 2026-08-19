@@ -1,5 +1,6 @@
 ---
 import { type LocalesValues } from "intlayer";
+import LanguageSwitcher from "@/components/LanguageSwitcher.astro";
 
 interface Props {
   locale: LocalesValues;
@@ -7,51 +8,130 @@ interface Props {
   currentPath: string;
 }
 
-const { content: nav } = Astro.props;
+const { locale, content: nav, currentPath } = Astro.props;
+
+const links = [
+  { href: nav.link1Href, label: nav.link1Label },
+  { href: nav.link2Href, label: nav.link2Label },
+  { href: nav.link3Href, label: nav.link3Label },
+  { href: nav.link4Href, label: nav.link4Label },
+  { href: nav.link5Href, label: nav.link5Label },
+];
 ---
 
 <nav
-  class="border-line bg-paper sticky top-7 z-40 border-b"
+  class="bg-paper border-navy sticky top-0 z-40 border-b"
   aria-label="Main navigation"
 >
-  <div class="border-line flex flex-wrap items-stretch border-t">
-    <span
-      class="border-line text-navy flex items-center gap-2 border-r px-3 py-2 font-mono text-[0.7rem]"
-      >■<span class="blink">_</span></span
-    >
+  <div
+    class="flex items-center justify-between gap-4 px-5 py-3 sm:px-8 md:px-10"
+  >
     <a
-      href={nav.link1Href}
-      class="group border-line text-ink-soft hover:bg-navy hover:text-cream flex items-center gap-1.5 border-r px-3 py-2 font-mono text-[0.72rem] uppercase transition"
-      ><span class="text-ink-faint group-hover:text-cream">01</span>
-      {nav.link1Label}</a
+      href={locale === "es" ? "/es" : "/en"}
+      class="text-ink font-mono text-[0.85rem] font-semibold tracking-tight uppercase"
+      >Manuel Muñoz<span class="text-navy">.</span></a
     >
-    <a
-      href={nav.link2Href}
-      class="group border-line text-ink-soft hover:bg-navy hover:text-cream flex items-center gap-1.5 border-r px-3 py-2 font-mono text-[0.72rem] uppercase transition"
-      ><span class="text-ink-faint group-hover:text-cream">02</span>
-      {nav.link2Label}</a
+
+    <!-- Enlaces de escritorio -->
+    <div class="hidden items-center gap-x-5 md:flex">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class="text-ink-soft hover:text-navy font-mono text-[0.72rem] uppercase transition"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <LanguageSwitcher locale={locale} currentPath={currentPath} />
+    </div>
+
+    <!-- Botón menú móvil -->
+    <button
+      id="nav-toggle"
+      class="border-navy text-navy hover:bg-paper-2 flex h-9 w-9 items-center justify-center border transition md:hidden"
+      aria-label={locale === "es" ? "Abrir menú" : "Open menu"}
+      aria-expanded="false"
+      aria-controls="nav-mobile"
     >
-    <a
-      href={nav.link3Href}
-      class="group border-line text-ink-soft hover:bg-navy hover:text-cream flex items-center gap-1.5 border-r px-3 py-2 font-mono text-[0.72rem] uppercase transition"
-      ><span class="text-ink-faint group-hover:text-cream">03</span>
-      {nav.link3Label}</a
-    >
-    <a
-      href={nav.link4Href}
-      class="group border-line text-ink-soft hover:bg-navy hover:text-cream flex items-center gap-1.5 border-r px-3 py-2 font-mono text-[0.72rem] uppercase transition"
-      ><span class="text-ink-faint group-hover:text-cream">04</span>
-      {nav.link4Label}</a
-    >
-    <a
-      href={nav.link5Href}
-      class="group border-line text-ink-soft hover:bg-navy hover:text-cream flex items-center gap-1.5 border-r px-3 py-2 font-mono text-[0.72rem] uppercase transition"
-      ><span class="text-ink-faint group-hover:text-cream">05</span>
-      {nav.link5Label}</a
-    >
-    <span
-      class="text-ink-faint ml-auto hidden items-center gap-2 px-3 py-2 font-mono text-[0.68rem] uppercase lg:flex"
-      ><span class="win-dot win-dot--navy"></span> v2.2</span
-    >
+      <svg
+        id="nav-icon-open"
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="square"><path d="M4 6h16M4 12h16M4 18h16"></path></svg
+      >
+      <svg
+        id="nav-icon-close"
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="square"
+        class="hidden"><path d="M6 6l12 12M18 6L6 18"></path></svg
+      >
+    </button>
+  </div>
+
+  <!-- Menú móvil desplegable -->
+  <div id="nav-mobile" class="border-line bg-paper hidden border-t md:hidden">
+    <div class="flex flex-col px-5 py-4">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class="border-line text-ink-soft hover:text-navy border-b py-3 font-mono text-[0.82rem] uppercase transition last:border-b-0"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <div class="mt-4">
+        <LanguageSwitcher locale={locale} currentPath={currentPath} />
+      </div>
+    </div>
   </div>
 </nav>
+
+<script>
+  const toggle = document.getElementById("nav-toggle");
+  const menu = document.getElementById("nav-mobile");
+  const iconOpen = document.getElementById("nav-icon-open");
+  const iconClose = document.getElementById("nav-icon-close");
+
+  if (toggle && menu) {
+    const close = () => {
+      menu.classList.add("hidden");
+      toggle.setAttribute("aria-expanded", "false");
+      if (iconOpen) iconOpen.classList.remove("hidden");
+      if (iconClose) iconClose.classList.add("hidden");
+    };
+
+    toggle.addEventListener("click", () => {
+      const isOpen = !menu.classList.contains("hidden");
+      if (isOpen) {
+        close();
+      } else {
+        menu.classList.remove("hidden");
+        toggle.setAttribute("aria-expanded", "true");
+        if (iconOpen) iconOpen.classList.add("hidden");
+        if (iconClose) iconClose.classList.remove("hidden");
+      }
+    });
+
+    menu
+      .querySelectorAll("a")
+      .forEach((a) => a.addEventListener("click", close));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") close();
+    });
+  }
+</script>
