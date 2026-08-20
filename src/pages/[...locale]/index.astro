@@ -15,7 +15,6 @@ import {
   localeMap,
   type LocalesValues,
 } from "intlayer";
-import { CubeCamera } from "three";
 import LanguagesSection from "@/components/index/sections/LanguagesSection.astro";
 
 export const getStaticPaths = () => {
@@ -51,39 +50,37 @@ const marqueeItems = [
     <div class="px-5 py-16 sm:px-8 md:px-10 md:py-28">
       <div class="max-w-3xl">
         <p
-          class="text-ink-soft font-mono text-[0.78rem] tracking-widest uppercase"
+          class="text-ink-soft text-caption font-mono tracking-widest uppercase"
         >
           <span class="text-navy">/</span>
           {c.hero.subtitle}<span class="blink text-navy">_</span>
         </p>
-        <h1
-          class="text-mega text-ink mt-6 text-[2.8rem] leading-none sm:text-7xl md:text-8xl"
-        >
+        <h1 class="text-mega text-ink text-display mt-6">
           {c.hero.firstName}
           <br />
           <span class="text-navy">{c.hero.lastName}</span>
         </h1>
-        <p class="text-ink-soft mt-7 max-w-xl text-[0.98rem] leading-relaxed">
+        <p class="text-ink-soft text-body mt-7 max-w-xl">
           {c.hero.description}
         </p>
         <div class="mt-9 flex flex-col gap-3 sm:flex-row">
           <a
             href="/José_Manuel_Muñoz_García_Resume_2026.pdf"
             download
-            class="bg-navy border-navy group hover:text-navy! w-full border px-6 py-3.5 text-center font-mono text-[0.75rem] text-white! uppercase transition-all duration-150 hover:bg-white sm:w-auto"
+            class="bg-navy border-navy group hover:text-navy! text-caption w-full border px-6 py-3.5 text-center font-mono text-white! uppercase transition-all duration-150 hover:bg-white sm:w-auto"
             ><span class="text-cream group-hover:text-navy">[↓]</span>{" "}
             {c.hero.downloadCv}</a
           >
           <a
             href="#contact"
-            class="border-navy group hover:bg-navy text-navy! w-full border bg-white px-6 py-3.5 text-center font-mono text-[0.75rem] uppercase transition-all duration-150 hover:text-white! sm:w-auto"
+            class="border-navy group hover:bg-navy text-navy! text-caption w-full border bg-white px-6 py-3.5 text-center font-mono uppercase transition-all duration-150 hover:text-white! sm:w-auto"
             ><span class="text-navy group-hover:text-white">[→]</span>{" "}
             {c.hero.contact}</a
           >
         </div>
       </div>
       <div
-        class="border-line text-ink-faint mt-14 flex flex-wrap items-center gap-x-6 gap-y-2 border-t pt-4 font-mono text-[0.68rem] uppercase"
+        class="border-line text-ink-faint text-meta mt-14 flex flex-wrap items-center gap-x-6 gap-y-2 border-t pt-4 font-mono uppercase"
       >
         <span class="flex items-center gap-1.5"
           ><span class="win-dot win-dot--radio blink"></span>STATUS:OPEN</span
@@ -98,7 +95,7 @@ const marqueeItems = [
   <div class="border-line bg-navy overflow-hidden border-b py-2.5">
     <div class="animate-marquee flex w-max whitespace-nowrap">
       <div
-        class="text-cream/90 flex items-center gap-6 pr-6 font-mono text-[0.72rem] uppercase"
+        class="text-cream/90 text-meta flex items-center gap-6 pr-6 font-mono uppercase"
       >
         {
           marqueeItems.map((m) => (
@@ -112,7 +109,7 @@ const marqueeItems = [
         }
       </div>
       <div
-        class="text-cream/90 flex items-center gap-6 pr-6 font-mono text-[0.72rem] uppercase"
+        class="text-cream/90 text-meta flex items-center gap-6 pr-6 font-mono uppercase"
         aria-hidden="true"
       >
         {

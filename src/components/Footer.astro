@@ -15,10 +15,10 @@ const { locale, content: f } = Astro.props;
       <!-- Contacto -->
       <div>
         <span class="section-tag section-tag--cream">8://CONTACT</span>
-        <h2 class="text-mega text-cream mt-5 text-4xl md:text-6xl">
+        <h2 class="text-mega text-cream text-display-sm mt-5">
           {f.heading}
         </h2>
-        <p class="text-cream/80 mt-4 max-w-sm text-[0.95rem]">
+        <p class="text-cream/80 text-body mt-4 max-w-sm">
           {f.description}
         </p>
         <div class="border-cream/40 bg-navy mt-8 border">
@@ -26,18 +26,15 @@ const { locale, content: f } = Astro.props;
             href={`mailto:${f.email}`}
             class="border-cream/40 hover:bg-cream hover:text-navy flex flex-col gap-1 border-b p-4 transition sm:flex-row sm:items-center sm:justify-between"
           >
-            <span class="text-peri font-mono text-[0.7rem] uppercase"
-              >EMAIL://</span
+            <span class="text-peri text-meta font-mono uppercase">EMAIL://</span
             >
-            <span class="text-cream text-[0.92rem] break-all">{f.email}</span>
+            <span class="text-cream text-detail break-all">{f.email}</span>
           </a>
           <p
             class="flex flex-col gap-1 p-4 sm:flex-row sm:items-center sm:justify-between"
           >
-            <span class="text-peri font-mono text-[0.7rem] uppercase"
-              >LOC://</span
-            >
-            <span class="text-cream text-[0.92rem]">{f.location}</span>
+            <span class="text-peri text-meta font-mono uppercase">LOC://</span>
+            <span class="text-cream text-detail">{f.location}</span>
           </p>
         </div>
       </div>
@@ -45,7 +42,7 @@ const { locale, content: f } = Astro.props;
       <!-- Redes -->
       <div>
         <span class="section-tag section-tag--cream">9://{f.linksLabel}</span>
-        <p class="text-cream/80 mt-5 font-mono text-[0.75rem] uppercase">
+        <p class="text-cream/80 text-caption mt-5 font-mono uppercase">
           <span class="text-peri">$</span> open --links
         </p>
         <div class="mt-4 grid grid-cols-3 gap-3">
@@ -84,12 +81,10 @@ const { locale, content: f } = Astro.props;
                       set:html={link.icon}
                     />
                   ) : (
-                    <span class="font-mono text-[0.7rem]">{link.code}</span>
+                    <span class="text-meta font-mono">{link.code}</span>
                   )}
                 </span>
-                <span class="font-mono text-[0.68rem] uppercase">
-                  {link.label}
-                </span>
+                <span class="text-meta font-mono uppercase">{link.label}</span>
               </a>
             ))
           }
@@ -100,7 +95,7 @@ const { locale, content: f } = Astro.props;
 
   <!-- Barra de estado final (tinta) -->
   <div
-    class="border-cream/30 bg-ink text-cream/80 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t px-4 py-3 font-mono text-[0.68rem] tracking-widest uppercase"
+    class="border-cream/30 bg-ink text-cream/80 text-meta flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t px-4 py-3 font-mono tracking-widest uppercase"
   >
     <span class="w-full sm:w-auto">
       {f.copyright.replace("{year}", String(new Date().getFullYear()))}

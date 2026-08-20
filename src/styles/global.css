@@ -57,6 +57,49 @@ html {
   --animate-marquee: marquee 22s linear infinite;
   --animate-marquee-fast: marquee 12s linear infinite;
   --animate-flicker: flicker 4s linear infinite;
+
+  /* ═══════════════════════════════════════════════════════════
+     TIPOGRAFÍA — ESCALA ÚNICA (fuente de verdad)
+     Solo se usan estos tokens; nada de text-[Xrem] sueltos.
+
+     text-display      → H1 hero
+     text-display-sm   → CTA grande (footer)
+     text-h2           → títulos de sección
+     text-h3           → títulos de tarjeta / subsección
+     text-body         → párrafos
+     text-detail       → texto secundario / detalle
+     text-caption      → etiquetas UI (nav, botones, kickers)
+     text-meta         → etiquetas mono uppercase informativas
+     text-micro        → micro-etiquetas (file-tab, checks, stat labels)
+     ═══════════════════════════════════════════════════════════ */
+  --text-display: clamp(2.75rem, 6vw + 1.5rem, 6rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-display-sm: clamp(2rem, 3vw + 1.25rem, 3.5rem);
+  --text-display-sm--line-height: 1;
+  --text-display-sm--letter-spacing: -0.02em;
+
+  --text-h2: clamp(1.5rem, 1.5vw + 1.25rem, 2rem);
+  --text-h2--line-height: 1.15;
+
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.4;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+
+  --text-detail: 0.875rem;
+  --text-detail--line-height: 1.5;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
+
+  --text-meta: 0.6875rem;
+  --text-meta--line-height: 1.4;
+
+  --text-micro: 0.625rem;
+  --text-micro--line-height: 1.4;
 }
 
 /* ── Reset radical: nada de redondeos, sombras suaves ni suavizado ── */
@@ -93,8 +136,8 @@ html {
 @layer base {
   body {
     font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
     background: var(--color-paper);
     color: var(--color-ink);
     -webkit-font-smoothing: antialiased;
@@ -223,7 +266,7 @@ img {
   align-items: center;
   gap: 8px;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--text-meta);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-navy);
@@ -268,7 +311,7 @@ img {
   color: var(--color-ink-soft);
   padding: 8px 12px;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: var(--text-meta);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -282,61 +325,6 @@ img {
 }
 .win-dot--navy {
   background: var(--color-navy);
-}
-
-/* Tabla densa */
-.dense-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-.dense-table th,
-.dense-table td {
-  border: 1px solid var(--color-line);
-  padding: 10px 12px;
-  vertical-align: top;
-  text-align: left;
-}
-.dense-table th {
-  background: var(--color-navy);
-  color: var(--color-cream);
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-/* ── Mobile: la tabla se convierte en tarjetas apiladas ── */
-@media (max-width: 639px) {
-  .dense-table,
-  .dense-table tbody,
-  .dense-table tr,
-  .dense-table td {
-    display: block;
-    width: 100%;
-  }
-  .dense-table thead {
-    display: none;
-  }
-  .dense-table tr {
-    border: 1px solid var(--color-line);
-    background: var(--color-paper-3);
-    padding: 14px 16px;
-    margin: 0 0 12px;
-  }
-  .dense-table td {
-    border: 0;
-    padding: 3px 0;
-  }
-  .dense-table td[data-label]::before {
-    content: attr(data-label);
-    display: block;
-    margin-bottom: 2px;
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-navy);
-  }
 }
 
 /* Barra de progreso segmentada (sutil) */
@@ -361,7 +349,7 @@ img {
   background: var(--color-navy);
   color: var(--color-cream);
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: var(--text-meta);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -372,7 +360,7 @@ img {
   background: var(--color-paper-3);
   padding: 5px 10px;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: var(--text-meta);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--color-ink-soft);
@@ -406,7 +394,7 @@ img {
 /* ── Etiqueta de cabecera de archivo ── */
 .file-tab {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: var(--text-micro);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-ink-faint);
@@ -421,7 +409,7 @@ img {
   background: var(--color-paper-3);
   padding: 8px 12px;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: var(--text-meta);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   transition:

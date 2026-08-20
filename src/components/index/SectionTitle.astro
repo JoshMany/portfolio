@@ -10,11 +10,11 @@ const { number, label, title } = Astro.props;
 
 <div class="flex flex-col gap-1 md:gap-2">
   <h2
-    class="w-full align-baseline font-mono text-[3.5vw] font-light text-black uppercase md:text-lg"
+    class="text-caption w-full align-baseline font-mono font-light text-black uppercase"
   >
     <span class="text-navy">█</span>{" "}
     {number}://{" "}
     <span class="text-navy">{label}</span>
   </h2>
-  <h3 class="text-[7vw] leading-tight md:text-3xl">{title}</h3>
+  <h3 class="text-h2">{title}</h3>
 </div>

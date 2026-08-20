@@ -34,7 +34,7 @@ const techs = [
       title={c.stack.heading}
       label={c.stack.sectionLabel}
     />
-    <span class="text-ink-faint font-mono text-[0.68rem] uppercase"
+    <span class="text-ink-faint text-meta font-mono uppercase"
       >REG:{techs.length}</span
     >
   </div>
@@ -45,7 +45,7 @@ const techs = [
       techs.map((t) => (
         <div class="stack-cell">
           <span>{t}</span>
-          <span class="text-[0.9rem] opacity-50">▸</span>
+          <span class="text-detail opacity-50">▸</span>
         </div>
       ))
     }

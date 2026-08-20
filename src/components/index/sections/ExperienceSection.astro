@@ -6,6 +6,20 @@ import type { LocalesValues } from "intlayer";
 
 const locale = getLocaleFromPath(Astro.url.pathname) as LocalesValues;
 const c = await getIntlayer("index", locale);
+
+// ── Clases compartidas de la tabla (una sola fuente, sin repetir por celda) ──
+const cell =
+  "border border-line px-3 py-2.5 text-left align-top max-md:block max-md:w-full max-md:border-0 max-md:px-0 max-md:py-0.75";
+const cellLabel =
+  "max-md:before:content-[attr(data-label)] max-md:before:mb-0.5 max-md:before:block max-md:before:font-mono max-md:before:text-micro max-md:before:tracking-[0.12em] max-md:before:uppercase max-md:before:text-navy";
+const cellDate = `${cell} ${cellLabel} font-mono text-meta text-ink-faint uppercase`;
+const cellRole = `${cell} ${cellLabel} font-medium text-detail text-ink`;
+const cellCompany = `${cell} ${cellLabel} text-detail text-navy`;
+const cellDesc = `${cell} ${cellLabel} text-detail text-ink-soft`;
+const th =
+  "border border-line bg-navy px-3 py-2.5 text-left align-top font-mono text-meta tracking-widest text-cream uppercase";
+const tr =
+  "max-md:block max-md:w-full max-md:border max-md:border-line max-md:bg-paper-3 max-md:px-4 max-md:py-3.5 max-md:mb-3";
 ---
 
 <section
@@ -18,86 +32,52 @@ const c = await getIntlayer("index", locale);
       title={c.timeline.heading}
       label={c.timeline.sectionLabel}
     />
-    <span class="text-ink-faint font-mono text-[0.68rem] uppercase"
-      >SINCE_2017</span
-    >
+    <span class="text-ink-faint text-meta font-mono uppercase">SINCE_2017</span>
   </div>
-  <div
-    class="border-line bg-paper-3 mt-8 overflow-x-auto border sm:overflow-visible"
-  >
-    <table class="dense-table sm:min-w-180">
-      <thead>
+  <div class="border-line bg-paper-3 mt-8 overflow-x-auto border">
+    <table
+      class="w-full border-collapse max-md:block max-md:w-full md:min-w-180"
+    >
+      <thead class="max-md:hidden">
         <tr>
-          <th class="w-44">DATE</th>
-          <th class="w-48">ROLE</th>
-          <th class="w-56">COMPANY</th>
-          <th>DESCRIPTION</th>
+          <th class={`${th} w-44`}>DATE</th>
+          <th class={`${th} w-48`}>ROLE</th>
+          <th class={`${th} w-56`}>COMPANY</th>
+          <th class={th}>DESCRIPTION</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td
-            data-label="Date"
-            class="text-ink-faint font-mono text-[0.72rem] uppercase"
-            >{c.timeline.t1Year}</td
-          >
-          <td data-label="Role" class="text-ink text-[0.9rem] font-medium"
-            >{c.timeline.t1Role}</td
-          >
-          <td data-label="Company" class="text-navy text-[0.85rem]"
+      <tbody class="max-md:block max-md:w-full">
+        <tr class={tr}>
+          <td data-label="Date" class={cellDate}>{c.timeline.t1Year}</td>
+          <td data-label="Role" class={cellRole}>{c.timeline.t1Role}</td>
+          <td data-label="Company" class={cellCompany}
             >{c.timeline.t1Company}</td
           >
-          <td data-label="Description" class="text-ink-soft text-[0.88rem]"
-            >{c.timeline.t1Desc}</td
-          >
+          <td data-label="Description" class={cellDesc}>{c.timeline.t1Desc}</td>
         </tr>
-        <tr>
-          <td
-            data-label="Date"
-            class="text-ink-faint font-mono text-[0.72rem] uppercase"
-            >{c.timeline.t2Year}</td
-          >
-          <td data-label="Role" class="text-ink text-[0.9rem] font-medium"
-            >{c.timeline.t2Role}</td
-          >
-          <td data-label="Company" class="text-navy text-[0.85rem]"
+        <tr class={tr}>
+          <td data-label="Date" class={cellDate}>{c.timeline.t2Year}</td>
+          <td data-label="Role" class={cellRole}>{c.timeline.t2Role}</td>
+          <td data-label="Company" class={cellCompany}
             >{c.timeline.t2Company}</td
           >
-          <td data-label="Description" class="text-ink-soft text-[0.88rem]"
-            >{c.timeline.t2Desc}</td
-          >
+          <td data-label="Description" class={cellDesc}>{c.timeline.t2Desc}</td>
         </tr>
-        <tr>
-          <td
-            data-label="Date"
-            class="text-ink-faint font-mono text-[0.72rem] uppercase"
-            >{c.timeline.t3Year}</td
-          >
-          <td data-label="Role" class="text-ink text-[0.9rem] font-medium"
-            >{c.timeline.t3Role}</td
-          >
-          <td data-label="Company" class="text-navy text-[0.85rem]"
+        <tr class={tr}>
+          <td data-label="Date" class={cellDate}>{c.timeline.t3Year}</td>
+          <td data-label="Role" class={cellRole}>{c.timeline.t3Role}</td>
+          <td data-label="Company" class={cellCompany}
             >{c.timeline.t3Company}</td
           >
-          <td data-label="Description" class="text-ink-soft text-[0.88rem]"
-            >{c.timeline.t3Desc}</td
-          >
+          <td data-label="Description" class={cellDesc}>{c.timeline.t3Desc}</td>
         </tr>
-        <tr>
-          <td
-            data-label="Date"
-            class="text-ink-faint font-mono text-[0.72rem] uppercase"
-            >{c.timeline.t4Year}</td
-          >
-          <td data-label="Role" class="text-ink text-[0.9rem] font-medium"
-            >{c.timeline.t4Role}</td
-          >
-          <td data-label="Company" class="text-navy text-[0.85rem]"
+        <tr class={tr}>
+          <td data-label="Date" class={cellDate}>{c.timeline.t4Year}</td>
+          <td data-label="Role" class={cellRole}>{c.timeline.t4Role}</td>
+          <td data-label="Company" class={cellCompany}
             >{c.timeline.t4Company}</td
           >
-          <td data-label="Description" class="text-ink-soft text-[0.88rem]"
-            >{c.timeline.t4Desc}</td
-          >
+          <td data-label="Description" class={cellDesc}>{c.timeline.t4Desc}</td>
         </tr>
       </tbody>
     </table>

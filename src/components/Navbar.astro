@@ -28,7 +28,7 @@ const links = [
   >
     <a
       href={locale === "es" ? "/es" : "/en"}
-      class="text-ink font-mono text-[0.85rem] font-semibold tracking-tight uppercase"
+      class="text-ink text-detail font-mono font-semibold tracking-tight uppercase"
       >Manuel Muñoz<span class="text-navy">.</span></a
     >
 
@@ -38,7 +38,7 @@ const links = [
         links.map((link) => (
           <a
             href={link.href}
-            class="text-ink-soft hover:text-navy font-mono text-[0.72rem] uppercase transition"
+            class="text-ink-soft hover:text-navy text-caption font-mono uppercase transition"
           >
             {link.label}
           </a>
@@ -88,7 +88,7 @@ const links = [
         links.map((link) => (
           <a
             href={link.href}
-            class="border-line text-ink-soft hover:text-navy border-b py-3 font-mono text-[0.82rem] uppercase transition last:border-b-0"
+            class="border-line text-ink-soft hover:text-navy text-caption border-b py-3 font-mono uppercase transition last:border-b-0"
           >
             {link.label}
           </a>

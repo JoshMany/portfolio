@@ -16,9 +16,7 @@ const c = await getIntlayer("index", locale);
       label={c.github.sectionLabel}
     />
 
-    <span class="text-ink-faint font-mono text-[0.68rem] uppercase"
-      >SOURCE:GH</span
-    >
+    <span class="text-ink-faint text-meta font-mono uppercase">SOURCE:GH</span>
   </div>
   <div class="win-window mt-8 max-w-3xl">
     <div class="win-titlebar">
@@ -37,7 +35,7 @@ const c = await getIntlayer("index", locale);
       />
     </div>
     <div
-      class="border-line bg-paper text-ink-faint flex flex-wrap items-center gap-2 border-t px-3 py-2.5 font-mono text-[0.7rem] uppercase"
+      class="border-line bg-paper text-ink-faint text-meta flex flex-wrap items-center gap-2 border-t px-3 py-2.5 font-mono uppercase"
     >
       <span class="text-navy">$</span> gh user {c.github.username}
       <a
