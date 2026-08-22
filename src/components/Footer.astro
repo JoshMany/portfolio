@@ -21,14 +21,18 @@ const { locale, content: f } = Astro.props;
         <p class="text-cream/80 text-body mt-4 max-w-sm">
           {f.description}
         </p>
-        <div class="border-cream/40 bg-navy mt-8 border">
+        <div class="border-cream/25 bg-navy mt-8 border">
           <a
             href={`mailto:${f.email}`}
-            class="border-cream/40 hover:bg-cream hover:text-navy flex flex-col gap-1 border-b p-4 transition sm:flex-row sm:items-center sm:justify-between"
+            class="group border-cream/25 hover:bg-cream hover:text-navy flex flex-col gap-1 border-b p-4 transition sm:flex-row sm:items-center sm:justify-between"
           >
-            <span class="text-peri text-meta font-mono uppercase">EMAIL://</span
+            <span
+              class="text-peri text-meta group-hover:text-navy font-mono uppercase"
+              >EMAIL://</span
             >
-            <span class="text-cream text-detail break-all">{f.email}</span>
+            <span class="text-cream text-detail group-hover:text-navy break-all"
+              >{f.email}</span
+            >
           </a>
           <p
             class="flex flex-col gap-1 p-4 sm:flex-row sm:items-center sm:justify-between"
@@ -45,7 +49,7 @@ const { locale, content: f } = Astro.props;
         <p class="text-cream/80 text-caption mt-5 font-mono uppercase">
           <span class="text-peri">$</span> open --links
         </p>
-        <div class="mt-4 grid grid-cols-3 gap-3">
+        <div class="border-cream/25 mt-4 flex flex-col border">
           {
             [
               {
@@ -72,19 +76,29 @@ const { locale, content: f } = Astro.props;
                 target="_blank"
                 rel="noopener"
                 download={link.download || undefined}
-                class="group border-cream/50 hover:bg-cream hover:text-navy flex flex-col items-center gap-2.5 border px-2 py-4 text-center transition sm:items-start sm:px-4 sm:text-left"
+                class="group hover:bg-cream hover:text-navy border-cream/25 flex items-center justify-between gap-3 border-b p-3.5 transition last:border-b-0"
               >
-                <span class="border-cream/60 text-cream group-hover:border-navy group-hover:text-navy flex h-9 w-9 items-center justify-center border transition">
-                  {link.icon ? (
-                    <span
-                      class="[&>svg]:h-4.5 [&>svg]:w-4.5"
-                      set:html={link.icon}
-                    />
-                  ) : (
-                    <span class="text-meta font-mono">{link.code}</span>
-                  )}
+                <span class="flex items-center gap-3">
+                  <span class="border-cream/40 text-cream group-hover:border-navy group-hover:text-navy flex h-8 w-8 shrink-0 items-center justify-center border transition">
+                    {link.icon ? (
+                      <span
+                        class="[&>svg]:h-4 [&>svg]:w-4"
+                        set:html={link.icon}
+                      />
+                    ) : (
+                      <span class="text-meta font-mono">{link.code}</span>
+                    )}
+                  </span>
+                  <span class="text-meta group-hover:text-navy font-mono uppercase">
+                    {link.label}
+                  </span>
                 </span>
-                <span class="text-meta font-mono uppercase">{link.label}</span>
+                <span
+                  class="text-peri text-meta group-hover:text-navy font-mono"
+                  aria-hidden="true"
+                >
+                  →
+                </span>
               </a>
             ))
           }
@@ -95,14 +109,11 @@ const { locale, content: f } = Astro.props;
 
   <!-- Barra de estado final (tinta) -->
   <div
-    class="border-cream/30 bg-ink text-cream/80 text-meta flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t px-4 py-3 font-mono tracking-widest uppercase"
+    class="border-cream/20 bg-ink text-cream/80 text-meta flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t px-4 py-3 font-mono tracking-widest uppercase"
   >
     <span class="w-full sm:w-auto">
       {f.copyright.replace("{year}", String(new Date().getFullYear()))}
     </span>
-    <span class="hidden sm:inline">BUILT_WITH:ASTRO/INTLAYER</span>
-    <span class="flex items-center gap-1.5"
-      ><span class="win-dot win-dot--radio blink"></span>v2.2</span
-    >
+    <span class="flex items-center gap-1.5"></span>v2.2
   </div>
 </footer>
