@@ -9,32 +9,34 @@ const c = await getIntlayer("index", locale);
 ---
 
 <section class="border-line bg-paper-2 border-b px-5 py-9 md:px-10">
-  <SectionTitle
-    number={7}
-    title={c.education.heading}
-    label={c.education.sectionLabel}
-  />
+  <div class="mx-auto w-full max-w-7xl">
+    <SectionTitle
+      number={7}
+      title={c.education.heading}
+      label={c.education.sectionLabel}
+    />
 
-  <div class="border-line bg-paper-3 mt-8 max-w-2xl border">
-    <div class="grid sm:grid-cols-[110px_1fr]">
-      <div
-        class="border-line bg-navy flex items-center justify-center border-b p-5 sm:border-r sm:border-b-0"
-      >
-        <span
-          class="text-mega border-cream/60 text-cream text-h3 flex h-12 w-12 items-center justify-center border"
-          >[]</span
+    <div class="border-line bg-paper-3 mt-8 max-w-2xl border">
+      <div class="grid sm:grid-cols-[110px_1fr]">
+        <div
+          class="border-line bg-navy flex items-center justify-center border-b p-5 sm:border-r sm:border-b-0"
         >
-      </div>
-      <div class="p-6">
-        <h3 class="text-ink text-h3">
-          {c.education.e1Degree}
-        </h3>
-        <p class="text-ink-soft text-detail mt-1.5">
-          {c.education.e1School}
-        </p>
-        <p class="text-ink-faint text-meta mt-2 font-mono uppercase">
-          PERIOD::{c.education.e1Year}
-        </p>
+          <span
+            class="text-mega border-cream/60 text-cream text-h3 flex h-12 w-12 items-center justify-center border"
+            >[]</span
+          >
+        </div>
+        <div class="p-6">
+          <h3 class="text-ink text-h3">
+            {c.education.e1Degree}
+          </h3>
+          <p class="text-ink-soft text-detail mt-1.5">
+            {c.education.e1School}
+          </p>
+          <p class="text-ink-faint text-meta mt-2 font-mono uppercase">
+            PERIOD::{c.education.e1Year}
+          </p>
+        </div>
       </div>
     </div>
   </div>

@@ -9,105 +9,107 @@ const c = await getIntlayer("index", locale);
 ---
 
 <section id="projects" class="border-line bg-paper border-b px-5 py-9 md:px-10">
-  <div class="flex flex-wrap items-end justify-between gap-4">
-    <SectionTitle
-      number={3}
-      title={c.projects.heading}
-      label={c.projects.sectionLabel}
-    />
+  <div class="mx-auto w-full max-w-7xl">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <SectionTitle
+        number={3}
+        title={c.projects.heading}
+        label={c.projects.sectionLabel}
+      />
 
-    <span class="text-ink-faint text-meta font-mono uppercase"
-      >DIR:~/projects</span
-    >
-  </div>
-  <div class="mt-8 grid gap-5 sm:grid-cols-2">
-    <article class="proj-card p-6">
-      <div
-        class="border-line flex items-center justify-between gap-2 border-b pb-2.5"
+      <span class="text-ink-faint text-meta font-mono uppercase"
+        >DIR:~/projects</span
       >
-        <span class="file-tab">FILE://01</span>
-        <span class="flex gap-1.5"
-          ><span class="win-dot"></span><span class="win-dot win-dot--navy"
-          ></span></span
+    </div>
+    <div class="mt-8 grid gap-5 sm:grid-cols-2">
+      <article class="proj-card p-6">
+        <div
+          class="border-line flex items-center justify-between gap-2 border-b pb-2.5"
         >
-      </div>
-      <p class="text-navy text-meta mt-4 font-mono uppercase">
-        {c.projects.p1Tags}
-      </p>
-      <h3 class="text-ink text-h3 mt-2">{c.projects.p1Title}</h3>
-      <p class="text-ink-soft text-detail mt-2">
-        {c.projects.p1Desc}
-      </p>
-      <span
-        class="text-ink-soft text-meta mt-4 inline-flex items-center gap-1.5 font-mono uppercase"
-        ><span class="text-navy">/</span> {c.projects.viewLabel}_</span
-      >
-    </article>
-    <article class="proj-card p-6">
-      <div
-        class="border-line flex items-center justify-between gap-2 border-b pb-2.5"
-      >
-        <span class="file-tab">FILE://02</span>
-        <span class="flex gap-1.5"
-          ><span class="win-dot"></span><span class="win-dot win-dot--navy"
-          ></span></span
+          <span class="file-tab">FILE://01</span>
+          <span class="flex gap-1.5"
+            ><span class="win-dot"></span><span class="win-dot win-dot--navy"
+            ></span></span
+          >
+        </div>
+        <p class="text-navy text-meta mt-4 font-mono uppercase">
+          {c.projects.p1Tags}
+        </p>
+        <h3 class="text-ink text-h3 mt-2">{c.projects.p1Title}</h3>
+        <p class="text-ink-soft text-detail mt-2">
+          {c.projects.p1Desc}
+        </p>
+        <span
+          class="text-ink-soft text-meta mt-4 inline-flex items-center gap-1.5 font-mono uppercase"
+          ><span class="text-navy">/</span> {c.projects.viewLabel}_</span
         >
-      </div>
-      <p class="text-navy text-meta mt-4 font-mono uppercase">
-        {c.projects.p2Tags}
-      </p>
-      <h3 class="text-ink text-h3 mt-2">{c.projects.p2Title}</h3>
-      <p class="text-ink-soft text-detail mt-2">
-        {c.projects.p2Desc}
-      </p>
-      <span
-        class="text-ink-soft text-meta mt-4 inline-flex items-center gap-1.5 font-mono uppercase"
-        ><span class="text-navy">/</span> {c.projects.viewLabel}_</span
-      >
-    </article>
-    <article class="proj-card p-6">
-      <div
-        class="border-line flex items-center justify-between gap-2 border-b pb-2.5"
-      >
-        <span class="file-tab">FILE://03</span>
-        <span class="flex gap-1.5"
-          ><span class="win-dot"></span><span class="win-dot win-dot--navy"
-          ></span></span
+      </article>
+      <article class="proj-card p-6">
+        <div
+          class="border-line flex items-center justify-between gap-2 border-b pb-2.5"
         >
-      </div>
-      <p class="text-navy text-meta mt-4 font-mono uppercase">
-        {c.projects.p3Tags}
-      </p>
-      <h3 class="text-ink text-h3 mt-2">{c.projects.p3Title}</h3>
-      <p class="text-ink-soft text-detail mt-2">
-        {c.projects.p3Desc}
-      </p>
-      <span
-        class="text-ink-soft text-meta mt-4 inline-flex items-center gap-1.5 font-mono uppercase"
-        ><span class="text-navy">/</span> {c.projects.viewLabel}_</span
-      >
-    </article>
-    <article class="proj-card p-6">
-      <div
-        class="border-line flex items-center justify-between gap-2 border-b pb-2.5"
-      >
-        <span class="file-tab">FILE://04</span>
-        <span class="flex gap-1.5"
-          ><span class="win-dot"></span><span class="win-dot win-dot--navy"
-          ></span></span
+          <span class="file-tab">FILE://02</span>
+          <span class="flex gap-1.5"
+            ><span class="win-dot"></span><span class="win-dot win-dot--navy"
+            ></span></span
+          >
+        </div>
+        <p class="text-navy text-meta mt-4 font-mono uppercase">
+          {c.projects.p2Tags}
+        </p>
+        <h3 class="text-ink text-h3 mt-2">{c.projects.p2Title}</h3>
+        <p class="text-ink-soft text-detail mt-2">
+          {c.projects.p2Desc}
+        </p>
+        <span
+          class="text-ink-soft text-meta mt-4 inline-flex items-center gap-1.5 font-mono uppercase"
+          ><span class="text-navy">/</span> {c.projects.viewLabel}_</span
         >
-      </div>
-      <p class="text-navy text-meta mt-4 font-mono uppercase">
-        {c.projects.p4Tags}
-      </p>
-      <h3 class="text-ink text-h3 mt-2">{c.projects.p4Title}</h3>
-      <p class="text-ink-soft text-detail mt-2">
-        {c.projects.p4Desc}
-      </p>
-      <span
-        class="text-ink-soft text-meta mt-4 inline-flex items-center gap-1.5 font-mono uppercase"
-        ><span class="text-navy">/</span> {c.projects.viewLabel}_</span
-      >
-    </article>
+      </article>
+      <article class="proj-card p-6">
+        <div
+          class="border-line flex items-center justify-between gap-2 border-b pb-2.5"
+        >
+          <span class="file-tab">FILE://03</span>
+          <span class="flex gap-1.5"
+            ><span class="win-dot"></span><span class="win-dot win-dot--navy"
+            ></span></span
+          >
+        </div>
+        <p class="text-navy text-meta mt-4 font-mono uppercase">
+          {c.projects.p3Tags}
+        </p>
+        <h3 class="text-ink text-h3 mt-2">{c.projects.p3Title}</h3>
+        <p class="text-ink-soft text-detail mt-2">
+          {c.projects.p3Desc}
+        </p>
+        <span
+          class="text-ink-soft text-meta mt-4 inline-flex items-center gap-1.5 font-mono uppercase"
+          ><span class="text-navy">/</span> {c.projects.viewLabel}_</span
+        >
+      </article>
+      <article class="proj-card p-6">
+        <div
+          class="border-line flex items-center justify-between gap-2 border-b pb-2.5"
+        >
+          <span class="file-tab">FILE://04</span>
+          <span class="flex gap-1.5"
+            ><span class="win-dot"></span><span class="win-dot win-dot--navy"
+            ></span></span
+          >
+        </div>
+        <p class="text-navy text-meta mt-4 font-mono uppercase">
+          {c.projects.p4Tags}
+        </p>
+        <h3 class="text-ink text-h3 mt-2">{c.projects.p4Title}</h3>
+        <p class="text-ink-soft text-detail mt-2">
+          {c.projects.p4Desc}
+        </p>
+        <span
+          class="text-ink-soft text-meta mt-4 inline-flex items-center gap-1.5 font-mono uppercase"
+          ><span class="text-navy">/</span> {c.projects.viewLabel}_</span
+        >
+      </article>
+    </div>
   </div>
 </section>

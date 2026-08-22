@@ -28,26 +28,28 @@ const techs = [
 ---
 
 <section id="stack" class="border-line bg-paper border-b px-5 py-9 md:px-10">
-  <div class="flex flex-wrap items-end justify-between gap-4">
-    <SectionTitle
-      number={1}
-      title={c.stack.heading}
-      label={c.stack.sectionLabel}
-    />
-    <span class="text-ink-faint text-meta font-mono uppercase"
-      >REG:{techs.length}</span
+  <div class="mx-auto w-full max-w-7xl">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <SectionTitle
+        number={1}
+        title={c.stack.heading}
+        label={c.stack.sectionLabel}
+      />
+      <span class="text-ink-faint text-meta font-mono uppercase"
+        >REG:{techs.length}</span
+      >
+    </div>
+    <div
+      class="border-line bg-line mt-8 grid grid-cols-2 gap-px border sm:grid-cols-3 md:grid-cols-4"
     >
-  </div>
-  <div
-    class="border-line bg-line mt-8 grid grid-cols-2 gap-px border sm:grid-cols-3 md:grid-cols-4"
-  >
-    {
-      techs.map((t) => (
-        <div class="stack-cell">
-          <span>{t}</span>
-          <span class="text-detail opacity-50">▸</span>
-        </div>
-      ))
-    }
+      {
+        techs.map((t) => (
+          <div class="stack-cell">
+            <span>{t}</span>
+            <span class="text-detail opacity-50">▸</span>
+          </div>
+        ))
+      }
+    </div>
   </div>
 </section>

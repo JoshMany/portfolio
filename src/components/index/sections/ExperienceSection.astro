@@ -26,60 +26,72 @@ const tr =
   id="timeline"
   class="border-line bg-paper-2 border-b px-5 py-9 md:px-10"
 >
-  <div class="flex flex-wrap items-end justify-between gap-4">
-    <SectionTitle
-      number={2}
-      title={c.timeline.heading}
-      label={c.timeline.sectionLabel}
-    />
-    <span class="text-ink-faint text-meta font-mono uppercase">SINCE_2017</span>
-  </div>
-  <div class="border-line bg-paper-3 mt-8 overflow-x-auto border">
-    <table
-      class="w-full border-collapse max-md:block max-md:w-full md:min-w-180"
-    >
-      <thead class="max-md:hidden">
-        <tr>
-          <th class={`${th} w-44`}>DATE</th>
-          <th class={`${th} w-48`}>ROLE</th>
-          <th class={`${th} w-56`}>COMPANY</th>
-          <th class={th}>DESCRIPTION</th>
-        </tr>
-      </thead>
-      <tbody class="max-md:block max-md:w-full">
-        <tr class={tr}>
-          <td data-label="Date" class={cellDate}>{c.timeline.t1Year}</td>
-          <td data-label="Role" class={cellRole}>{c.timeline.t1Role}</td>
-          <td data-label="Company" class={cellCompany}
-            >{c.timeline.t1Company}</td
-          >
-          <td data-label="Description" class={cellDesc}>{c.timeline.t1Desc}</td>
-        </tr>
-        <tr class={tr}>
-          <td data-label="Date" class={cellDate}>{c.timeline.t2Year}</td>
-          <td data-label="Role" class={cellRole}>{c.timeline.t2Role}</td>
-          <td data-label="Company" class={cellCompany}
-            >{c.timeline.t2Company}</td
-          >
-          <td data-label="Description" class={cellDesc}>{c.timeline.t2Desc}</td>
-        </tr>
-        <tr class={tr}>
-          <td data-label="Date" class={cellDate}>{c.timeline.t3Year}</td>
-          <td data-label="Role" class={cellRole}>{c.timeline.t3Role}</td>
-          <td data-label="Company" class={cellCompany}
-            >{c.timeline.t3Company}</td
-          >
-          <td data-label="Description" class={cellDesc}>{c.timeline.t3Desc}</td>
-        </tr>
-        <tr class={tr}>
-          <td data-label="Date" class={cellDate}>{c.timeline.t4Year}</td>
-          <td data-label="Role" class={cellRole}>{c.timeline.t4Role}</td>
-          <td data-label="Company" class={cellCompany}
-            >{c.timeline.t4Company}</td
-          >
-          <td data-label="Description" class={cellDesc}>{c.timeline.t4Desc}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="mx-auto w-full max-w-7xl">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <SectionTitle
+        number={2}
+        title={c.timeline.heading}
+        label={c.timeline.sectionLabel}
+      />
+      <span class="text-ink-faint text-meta font-mono uppercase"
+        >SINCE_2017</span
+      >
+    </div>
+    <div class="border-line bg-paper-3 mt-8 overflow-x-auto border">
+      <table
+        class="w-full border-collapse max-md:block max-md:w-full md:min-w-180"
+      >
+        <thead class="max-md:hidden">
+          <tr>
+            <th class={`${th} w-44`}>DATE</th>
+            <th class={`${th} w-48`}>ROLE</th>
+            <th class={`${th} w-56`}>COMPANY</th>
+            <th class={th}>DESCRIPTION</th>
+          </tr>
+        </thead>
+        <tbody class="max-md:block max-md:w-full">
+          <tr class={tr}>
+            <td data-label="Date" class={cellDate}>{c.timeline.t1Year}</td>
+            <td data-label="Role" class={cellRole}>{c.timeline.t1Role}</td>
+            <td data-label="Company" class={cellCompany}
+              >{c.timeline.t1Company}</td
+            >
+            <td data-label="Description" class={cellDesc}
+              >{c.timeline.t1Desc}</td
+            >
+          </tr>
+          <tr class={tr}>
+            <td data-label="Date" class={cellDate}>{c.timeline.t2Year}</td>
+            <td data-label="Role" class={cellRole}>{c.timeline.t2Role}</td>
+            <td data-label="Company" class={cellCompany}
+              >{c.timeline.t2Company}</td
+            >
+            <td data-label="Description" class={cellDesc}
+              >{c.timeline.t2Desc}</td
+            >
+          </tr>
+          <tr class={tr}>
+            <td data-label="Date" class={cellDate}>{c.timeline.t3Year}</td>
+            <td data-label="Role" class={cellRole}>{c.timeline.t3Role}</td>
+            <td data-label="Company" class={cellCompany}
+              >{c.timeline.t3Company}</td
+            >
+            <td data-label="Description" class={cellDesc}
+              >{c.timeline.t3Desc}</td
+            >
+          </tr>
+          <tr class={tr}>
+            <td data-label="Date" class={cellDate}>{c.timeline.t4Year}</td>
+            <td data-label="Role" class={cellRole}>{c.timeline.t4Role}</td>
+            <td data-label="Company" class={cellCompany}
+              >{c.timeline.t4Company}</td
+            >
+            <td data-label="Description" class={cellDesc}
+              >{c.timeline.t4Desc}</td
+            >
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>

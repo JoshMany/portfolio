@@ -32,6 +32,7 @@ const ogImage = "/og-image.png";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+    <meta name="color-scheme" content="light dark" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
@@ -67,6 +68,20 @@ const ogImage = "/og-image.png";
         ? new URL(Astro.url.pathname, Astro.site).href
         : Astro.url.href}
     />
+
+    <!-- Tema claro/oscuro: aplicar antes del primer paint (sin parpadeo) -->
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          var dark =
+            stored === "dark" ||
+            (!stored &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches);
+          if (dark) document.documentElement.classList.add("dark");
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body class="bg-paper text-ink font-sans" data-theme="editorial">
     <Navbar locale={locale} content={nav} currentPath={Astro.url.pathname} />

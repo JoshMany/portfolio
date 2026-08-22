@@ -9,41 +9,44 @@ const c = await getIntlayer("index", locale);
 ---
 
 <section class="border-line bg-paper-2 border-b px-5 py-9 md:px-10">
-  <div class="flex flex-wrap items-end justify-between gap-4">
-    <SectionTitle
-      number={4}
-      title={c.github.heading}
-      label={c.github.sectionLabel}
-    />
-
-    <span class="text-ink-faint text-meta font-mono uppercase">SOURCE:GH</span>
-  </div>
-  <div class="win-window mt-8 max-w-3xl">
-    <div class="win-titlebar">
-      <span class="win-dot"></span>
-      <span>GITHUB://CONTRIBUTIONS.EXE</span>
-      <span class="ml-auto"
-        ><span class="win-dot win-dot--radio blink"></span></span
-      >
-    </div>
-    <div class="bg-paper-2 p-3">
-      <img
-        src={`https://ghchart.rshah.org/${c.github.username}`}
-        alt="GitHub contribution graph"
-        class="w-full"
-        loading="lazy"
+  <div class="mx-auto w-full max-w-7xl">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <SectionTitle
+        number={4}
+        title={c.github.heading}
+        label={c.github.sectionLabel}
       />
-    </div>
-    <div
-      class="border-line bg-paper text-ink-faint text-meta flex flex-wrap items-center gap-2 border-t px-3 py-2.5 font-mono uppercase"
-    >
-      <span class="text-navy">$</span> gh user {c.github.username}
-      <a
-        href={`https://github.com/${c.github.username}`}
-        target="_blank"
-        rel="noopener"
-        class="link-90s ml-auto">github.com/{c.github.username}</a
+
+      <span class="text-ink-faint text-meta font-mono uppercase">SOURCE:GH</span
       >
+    </div>
+    <div class="win-window mt-8 max-w-3xl">
+      <div class="win-titlebar">
+        <span class="win-dot"></span>
+        <span>GITHUB://CONTRIBUTIONS.EXE</span>
+        <span class="ml-auto"
+          ><span class="win-dot win-dot--radio blink"></span></span
+        >
+      </div>
+      <div class="bg-paper-2 p-3">
+        <img
+          src={`https://ghchart.rshah.org/${c.github.username}`}
+          alt="GitHub contribution graph"
+          class="w-full"
+          loading="lazy"
+        />
+      </div>
+      <div
+        class="border-line bg-paper text-ink-faint text-meta flex flex-wrap items-center gap-2 border-t px-3 py-2.5 font-mono uppercase"
+      >
+        <span class="text-navy">$</span> gh user {c.github.username}
+        <a
+          href={`https://github.com/${c.github.username}`}
+          target="_blank"
+          rel="noopener"
+          class="link-90s ml-auto">github.com/{c.github.username}</a
+        >
+      </div>
     </div>
   </div>
 </section>

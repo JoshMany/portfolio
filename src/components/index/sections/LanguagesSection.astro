@@ -13,46 +13,48 @@ const pctToSegments = (pct: string) =>
 ---
 
 <section class="border-line bg-paper border-b px-5 py-9 md:px-10">
-  <div class="grid gap-10 md:grid-cols-2">
-    <SectionTitle
-      number={5}
-      title={c.languages.heading}
-      label={c.languages.sectionLabel}
-    />
-    <div>
-      <div class="mt-8 space-y-5">
-        <div class="border-line bg-paper-3 border p-5">
-          <div
-            class="text-meta flex items-center justify-between gap-2 font-mono uppercase"
-          >
-            <span class="text-ink">{c.languages.l1Name}</span>
-            <span class="text-navy">{c.languages.l1Level}</span>
+  <div class="mx-auto w-full max-w-7xl">
+    <div class="grid gap-10 md:grid-cols-2">
+      <SectionTitle
+        number={5}
+        title={c.languages.heading}
+        label={c.languages.sectionLabel}
+      />
+      <div>
+        <div class="mt-8 space-y-5">
+          <div class="border-line bg-paper-3 border p-5">
+            <div
+              class="text-meta flex items-center justify-between gap-2 font-mono uppercase"
+            >
+              <span class="text-ink">{c.languages.l1Name}</span>
+              <span class="text-navy">{c.languages.l1Level}</span>
+            </div>
+            <div class="pixel-progress mt-3.5">
+              {
+                Array.from({ length: 20 }).map((_, i) => (
+                  <span
+                    class={i < pctToSegments(c.languages.l1Pct) ? "hot" : "off"}
+                  />
+                ))
+              }
+            </div>
           </div>
-          <div class="pixel-progress mt-3.5">
-            {
-              Array.from({ length: 20 }).map((_, i) => (
-                <span
-                  class={i < pctToSegments(c.languages.l1Pct) ? "hot" : "off"}
-                />
-              ))
-            }
-          </div>
-        </div>
-        <div class="border-line bg-paper-3 border p-5">
-          <div
-            class="text-meta flex items-center justify-between gap-2 font-mono uppercase"
-          >
-            <span class="text-ink">{c.languages.l2Name}</span>
-            <span class="text-coral">{c.languages.l2Level}</span>
-          </div>
-          <div class="pixel-progress mt-3.5">
-            {
-              Array.from({ length: 20 }).map((_, i) => (
-                <span
-                  class={i < pctToSegments(c.languages.l2Pct) ? "hot" : "off"}
-                />
-              ))
-            }
+          <div class="border-line bg-paper-3 border p-5">
+            <div
+              class="text-meta flex items-center justify-between gap-2 font-mono uppercase"
+            >
+              <span class="text-ink">{c.languages.l2Name}</span>
+              <span class="text-coral">{c.languages.l2Level}</span>
+            </div>
+            <div class="pixel-progress mt-3.5">
+              {
+                Array.from({ length: 20 }).map((_, i) => (
+                  <span
+                    class={i < pctToSegments(c.languages.l2Pct) ? "hot" : "off"}
+                  />
+                ))
+              }
+            </div>
           </div>
         </div>
       </div>

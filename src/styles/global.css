@@ -7,6 +7,7 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
 }
 
 @font-face {
@@ -100,6 +101,38 @@ html {
 
   --text-micro: 0.625rem;
   --text-micro--line-height: 1.4;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MODO OSCURO — detección del tema del sistema + selector manual
+   El navy y los acentos (cream/radio/coral/peri/blue) NO cambian;
+   solo varían papel/tinta/línea entre blanco y negro.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* dark: → variante por clase (.dark en <html>) en vez de media query */
+@custom-variant dark (&:where(.dark, .dark *));
+
+.dark {
+  color-scheme: dark;
+  /* Scrollbar Firefox: thumb gris en vez de blanco puro */
+  scrollbar-color: var(--color-ink-soft) var(--color-paper);
+
+  /* Base negra (solo blanco/negro; el navy se mantiene) */
+  --color-paper: #0a0a0a; /* fondo principal */
+  --color-paper-2: #161616; /* banda alterna */
+  --color-paper-3: #1d1d1d; /* superficie tarjeta */
+  --color-ink: #f7f7f4; /* texto principal (blanco) */
+  --color-ink-soft: #b5b5b0; /* texto secundario */
+  --color-ink-faint: #757570; /* texto terciario */
+  --color-line: #2e2e2e; /* bordes finos */
+}
+
+/* Scrollbar webkit en modo oscuro: thumb gris (menos estridente que blanco) */
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--color-ink-soft);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-radio);
 }
 
 /* ── Reset radical: nada de redondeos, sombras suaves ni suavizado ── */

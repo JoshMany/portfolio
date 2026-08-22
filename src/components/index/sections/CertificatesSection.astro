@@ -9,41 +9,47 @@ const c = await getIntlayer("index", locale);
 ---
 
 <section class="border-line bg-paper border-b px-5 py-9 md:px-10">
-  <div class="grid gap-10 md:grid-cols-2">
-    <SectionTitle
-      number={6}
-      title={c.certificates.heading}
-      label={c.certificates.sectionLabel}
-    />
+  <div class="mx-auto w-full max-w-7xl">
+    <div class="grid gap-10 md:grid-cols-2">
+      <SectionTitle
+        number={6}
+        title={c.certificates.heading}
+        label={c.certificates.sectionLabel}
+      />
 
-    <div>
-      <div class="space-y-5">
-        <div class="border-line bg-paper-3 flex items-start gap-3.5 border p-5">
-          <span
-            class="border-navy text-navy text-micro mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center border font-mono"
-            >✓</span
+      <div>
+        <div class="space-y-5">
+          <div
+            class="border-line bg-paper-3 flex items-start gap-3.5 border p-5"
           >
-          <div>
-            <p class="text-ink text-caption font-mono uppercase">
-              {c.certificates.c1Name}
-            </p>
-            <p class="text-ink-soft text-detail mt-1">
-              {c.certificates.c1Org} — {c.certificates.c1Year}
-            </p>
+            <span
+              class="border-navy text-navy text-micro mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center border font-mono"
+              >✓</span
+            >
+            <div>
+              <p class="text-ink text-caption font-mono uppercase">
+                {c.certificates.c1Name}
+              </p>
+              <p class="text-ink-soft text-detail mt-1">
+                {c.certificates.c1Org} — {c.certificates.c1Year}
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="border-line bg-paper-3 flex items-start gap-3.5 border p-5">
-          <span
-            class="border-navy text-navy text-micro mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center border font-mono"
-            >✓</span
+          <div
+            class="border-line bg-paper-3 flex items-start gap-3.5 border p-5"
           >
-          <div>
-            <p class="text-ink text-caption font-mono uppercase">
-              {c.certificates.c2Name}
-            </p>
-            <p class="text-ink-soft text-detail mt-1">
-              {c.certificates.c2Org} — {c.certificates.c2Year}
-            </p>
+            <span
+              class="border-navy text-navy text-micro mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center border font-mono"
+              >✓</span
+            >
+            <div>
+              <p class="text-ink text-caption font-mono uppercase">
+                {c.certificates.c2Name}
+              </p>
+              <p class="text-ink-soft text-detail mt-1">
+                {c.certificates.c2Org} — {c.certificates.c2Year}
+              </p>
+            </div>
           </div>
         </div>
       </div>
