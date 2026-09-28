@@ -1,0 +1,938 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import SectionTitle from "@/components/index/SectionTitle.astro";
+import {
+  CATEGORIES,
+  ERAS,
+  EXAMPLES,
+  RELATIONS,
+  convert,
+  findCategory,
+  findUnit,
+  formatNumber,
+  operation,
+  ratio,
+} from "@/lib/units";
+import "@/styles/global.css";
+import {
+  getIntlayer,
+  getLocaleFromPath,
+  getLocaleLang,
+  getPrefix,
+  localeMap,
+  type LocalesValues,
+} from "intlayer";
+
+export const getStaticPaths = () => {
+  return localeMap(({ locale }) => ({
+    params: { locale: getPrefix(locale).localePrefix },
+  }));
+};
+
+const locale = getLocaleFromPath(Astro.url.pathname) as LocalesValues;
+const lang = getLocaleLang(locale);
+const prefix = getPrefix(locale).localePrefix;
+const c = await getIntlayer("conversor", locale);
+
+const unitLabels = c.units as unknown as Record<string, string>;
+const categoryLabels = c.categories as unknown as Record<string, string>;
+const eraLabels = c.eras as unknown as Record<string, string>;
+const unitLabel = (id: string) => unitLabels[id] ?? id;
+const num = (value: number) => formatNumber(value, lang);
+
+const initialValue = 1;
+
+// Estado inicial de cada panel (idéntico al que calcula el script del cliente)
+const panels = CATEGORIES.map((category) => {
+  const from = findUnit(category, category.defaultFrom);
+  const to = findUnit(category, category.defaultTo);
+  if (!from || !to)
+    throw new Error(`Unidades por defecto inválidas: ${category.id}`);
+
+  const r = ratio(from, to);
+  const op = operation(from, to);
+  return {
+    category,
+    from,
+    to,
+    value: initialValue,
+    result: convert(initialValue, from, to),
+    ratioValue: r,
+    multiply: op.multiply,
+    operand: op.operand,
+    approx: Boolean(from.approx || to.approx),
+    rows: category.units.map((unit) => ({
+      id: unit.id,
+      label: unitLabel(unit.id),
+      doc: Boolean(unit.doc),
+      approx: Boolean(unit.approx) || Boolean(from.approx),
+      value: convert(initialValue, from, unit),
+    })),
+  };
+});
+
+// Equivalencias del documento (1 unidad → cuántas de la otra)
+const relations = RELATIONS.map((relation) => {
+  const category = findCategory(relation.category);
+  const from = category ? findUnit(category, relation.from) : undefined;
+  const to = category ? findUnit(category, relation.to) : undefined;
+  if (!from || !to)
+    throw new Error(`Relación inválida: ${relation.from} → ${relation.to}`);
+
+  return {
+    fromLabel: unitLabel(from.id),
+    toLabel: unitLabel(to.id),
+    value: num(ratio(from, to)),
+    approx: Boolean(from.approx || to.approx),
+  };
+});
+
+// Ejemplos resueltos del documento
+const examples = EXAMPLES.map((example) => {
+  const category = findCategory(example.category);
+  const from = category ? findUnit(category, example.from) : undefined;
+  const to = category ? findUnit(category, example.to) : undefined;
+  if (!from || !to) throw new Error(`Ejemplo inválido: ${example.id}`);
+
+  const op = operation(from, to);
+  return {
+    ...example,
+    fromLabel: unitLabel(from.id),
+    toLabel: unitLabel(to.id),
+    valueText: num(example.value),
+    result: num(convert(example.value, from, to)),
+    operation: op.multiply ? "×" : "÷",
+    factor: num(op.operand),
+    approx: Boolean(from.approx || to.approx),
+  };
+});
+---
+
+<Layout locale={locale} title={c.meta.title} noindex>
+  <!-- 0:// HUD de herramienta interna -->
+  <section class="border-line bg-paper-2 border-b">
+    <div class="mx-auto w-full max-w-7xl px-5 py-10 md:px-10 md:py-14">
+      <p class="text-ink-soft text-caption font-mono tracking-widest uppercase">
+        <span class="text-navy">█</span> TOOL://CONVERSOR · {c.hero.kicker}
+      </p>
+      <h1 class="text-mega text-ink text-display-sm mt-5">
+        {c.hero.heading}
+      </h1>
+      <p class="text-ink-soft text-body mt-6 max-w-2xl">
+        {c.hero.intro}
+      </p>
+      <div
+        class="border-line text-ink-faint text-meta mt-9 flex flex-wrap items-center gap-x-6 gap-y-2 border-t pt-4 font-mono uppercase"
+      >
+        <span class="flex items-center gap-1.5"
+          ><span class="win-dot win-dot--radio blink"></span>{
+            c.hero.status
+          }</span
+        >
+        <span>{c.hero.source}</span>
+        <span>{c.hero.nav}</span>
+        <span>{c.hero.index}</span>
+      </div>
+      <a
+        href={`/${prefix}`}
+        class="border-line text-ink-soft hover:bg-navy hover:text-cream hover:border-navy text-caption mt-6 inline-block border px-5 py-3 font-mono uppercase transition-colors"
+        >[←] {c.hero.back}</a
+      >
+    </div>
+  </section>
+
+  <!-- 0:// CONVERSOR -->
+  <section class="border-line bg-paper border-b px-5 py-9 md:px-10">
+    <div class="mx-auto w-full max-w-7xl">
+      <SectionTitle
+        number={0}
+        label={c.tool.sectionLabel}
+        title={c.tool.heading}
+      />
+
+      <div
+        data-converter
+        data-label-multiply={c.tool.multiply}
+        data-label-divide={c.tool.divide}
+        data-label-relation={c.tool.relationLabel}
+        data-label-empty={c.tool.empty}
+        data-label-doc="DOC"
+      >
+        <div
+          class="border-line mt-7 flex flex-col gap-4 border-b pb-4 sm:flex-row sm:items-end sm:justify-between"
+        >
+          <div class="bg-line flex flex-wrap gap-px" role="tablist">
+            {
+              CATEGORIES.map((category, index) => (
+                <button
+                  type="button"
+                  role="tab"
+                  data-cat={category.id}
+                  aria-selected={index === 0 ? "true" : "false"}
+                  class={`text-caption border px-4 py-2.5 font-mono uppercase transition-colors ${
+                    index === 0
+                      ? "bg-navy text-cream border-navy"
+                      : "bg-paper-3 text-ink-soft border-line hover:text-ink"
+                  }`}
+                >
+                  {categoryLabels[category.id]}
+                </button>
+              ))
+            }
+          </div>
+
+          <label class="flex items-end gap-2">
+            <span class="text-meta text-ink-soft mb-3 font-mono uppercase"
+              >{c.tool.eraLabel}</span
+            >
+            <select
+              data-role="era"
+              class="border-line bg-paper-3 text-ink focus:border-navy text-detail h-11 border px-3 font-mono outline-none"
+            >
+              <option value="all" selected>{c.tool.allEras}</option>
+              {ERAS.map((era) => <option value={era}>{eraLabels[era]}</option>)}
+            </select>
+          </label>
+        </div>
+
+        {
+          panels.map((panel, index) => (
+            <div
+              class="win-window mt-6"
+              data-panel={panel.category.id}
+              data-default-from={panel.category.defaultFrom}
+              data-default-to={panel.category.defaultTo}
+              hidden={index !== 0}
+            >
+              <div class="win-titlebar">
+                <span class="win-dot win-dot--navy" />
+                <span>
+                  0{index}://{categoryLabels[panel.category.id]}
+                </span>
+                <span class="ml-auto">
+                  {c.hero.base}::{panel.category.base.toUpperCase()}
+                </span>
+              </div>
+
+              <div class="p-4 sm:p-5" data-role="body">
+                <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-[9rem_minmax(0,1fr)_auto_minmax(0,1fr)] lg:items-end">
+                  <label class="flex flex-col gap-1.5">
+                    <span class="text-meta text-ink-soft font-mono uppercase">
+                      {c.tool.valueLabel}
+                    </span>
+                    <input
+                      type="text"
+                      inputmode="decimal"
+                      autocomplete="off"
+                      spellcheck="false"
+                      data-role="value"
+                      value={panel.value}
+                      class="border-line bg-paper-3 text-ink focus:border-navy text-body h-11 w-full border px-3 font-mono outline-none"
+                    />
+                  </label>
+
+                  <label class="flex flex-col gap-1.5">
+                    <span class="text-meta text-ink-soft font-mono uppercase">
+                      {c.tool.fromLabel}
+                    </span>
+                    <select
+                      data-role="from"
+                      class="border-line bg-paper-3 text-ink focus:border-navy text-detail h-11 w-full border px-3 font-mono outline-none"
+                    >
+                      {panel.category.units.map((unit) => (
+                        <option
+                          value={unit.id}
+                          selected={unit.id === panel.category.defaultFrom}
+                          data-era={unit.era}
+                          data-factor={unit.factor}
+                          data-approx={unit.approx ? "1" : "0"}
+                          data-doc={unit.doc ? "1" : "0"}
+                        >
+                          {unitLabel(unit.id)}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+
+                  <button
+                    type="button"
+                    data-role="swap"
+                    aria-label={c.tool.swap}
+                    title={c.tool.swap}
+                    class="border-navy text-navy hover:bg-navy hover:text-cream text-caption h-11 border px-3 font-mono uppercase transition-colors"
+                  >
+                    ⇄
+                  </button>
+
+                  <label class="flex flex-col gap-1.5">
+                    <span class="text-meta text-ink-soft font-mono uppercase">
+                      {c.tool.toLabel}
+                    </span>
+                    <select
+                      data-role="to"
+                      class="border-line bg-paper-3 text-ink focus:border-navy text-detail h-11 w-full border px-3 font-mono outline-none"
+                    >
+                      {panel.category.units.map((unit) => (
+                        <option
+                          value={unit.id}
+                          selected={unit.id === panel.category.defaultTo}
+                          data-era={unit.era}
+                          data-factor={unit.factor}
+                          data-approx={unit.approx ? "1" : "0"}
+                          data-doc={unit.doc ? "1" : "0"}
+                        >
+                          {unitLabel(unit.id)}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+
+                <div class="border-navy bg-paper-2 mt-5 border p-4 sm:p-5">
+                  <div class="flex flex-wrap items-start justify-between gap-x-8 gap-y-4">
+                    <div>
+                      <p class="text-meta text-ink-soft font-mono uppercase">
+                        {c.tool.resultLabel}
+                      </p>
+                      <p
+                        class="text-mega text-navy text-h2 mt-1.5"
+                        data-role="result"
+                      >
+                        {panel.approx ? "≈ " : ""}
+                        {num(panel.result)}
+                      </p>
+                      <p
+                        class="text-meta text-ink-soft mt-1.5 font-mono uppercase"
+                        data-role="unit"
+                      >
+                        {unitLabel(panel.to.id)}
+                      </p>
+                    </div>
+                    <div class="sm:text-right">
+                      <p
+                        class="text-meta text-navy font-mono uppercase"
+                        data-role="operation"
+                      >
+                        {panel.multiply ? "×" : "÷"}{" "}
+                        {panel.multiply ? c.tool.multiply : c.tool.divide}
+                      </p>
+                      <p
+                        class="text-detail text-ink-soft mt-2 font-mono"
+                        data-role="formula"
+                      >
+                        {num(panel.value)} {panel.multiply ? "×" : "÷"}{" "}
+                        {num(panel.operand)} = {num(panel.result)}
+                      </p>
+                      <p
+                        class="text-micro text-ink-faint mt-2 max-w-xs font-mono uppercase"
+                        data-role="hint"
+                      >
+                        {c.tool.relationLabel} 1 {unitLabel(panel.from.id)} ={" "}
+                        {num(panel.ratioValue)} {unitLabel(panel.to.id)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-6">
+                  <p class="text-meta text-ink-soft font-mono uppercase">
+                    {c.tool.allUnitsLabel}
+                  </p>
+                  <div
+                    data-role="grid"
+                    class="border-line bg-line mt-3 grid gap-px border sm:grid-cols-2 lg:grid-cols-3"
+                  >
+                    {panel.rows.map((row) => (
+                      <div class="stack-cell">
+                        <span class="flex items-center gap-2">
+                          <span>{row.label}</span>
+                          {row.doc && (
+                            <span class="text-micro text-navy border-navy border px-1">
+                              DOC
+                            </span>
+                          )}
+                        </span>
+                        <span class="text-ink-soft">
+                          {row.approx ? "≈ " : ""}
+                          {num(row.value)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <p class="text-micro text-ink-faint mt-3 font-mono uppercase">
+                    {c.tool.legendApprox} · {c.tool.legendDoc}
+                  </p>
+                </div>
+
+                <p class="text-detail text-ink-soft border-line mt-5 border-t pt-4">
+                  {c.tool.inlineNote}
+                </p>
+              </div>
+
+              <p
+                class="text-detail text-ink-soft p-4 sm:p-5"
+                data-role="no-units"
+                hidden
+              >
+                {c.tool.noUnits}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 1:// CRONOLOGÍA -->
+  <section class="border-line bg-paper-2 border-b px-5 py-9 md:px-10">
+    <div class="mx-auto w-full max-w-7xl">
+      <SectionTitle
+        number={1}
+        label={c.timeline.sectionLabel}
+        title={c.timeline.heading}
+      />
+      <p class="text-ink-soft text-detail mt-4 max-w-2xl">{c.timeline.intro}</p>
+
+      <ol class="bg-line mt-7 grid gap-px sm:grid-cols-2 lg:grid-cols-3">
+        {
+          c.timeline.eras.map((era) => (
+            <li class="bg-paper-3 p-5">
+              <p class="text-caption text-navy font-mono uppercase">
+                {era.title}
+              </p>
+              <p class="text-detail text-ink-soft mt-3">{era.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- 2:// RELACIONES CLAVE -->
+  <section class="border-line bg-paper border-b px-5 py-9 md:px-10">
+    <div class="mx-auto w-full max-w-7xl">
+      <SectionTitle
+        number={2}
+        label={c.relations.sectionLabel}
+        title={c.relations.heading}
+      />
+      <p class="text-ink-soft text-detail mt-4 max-w-2xl">
+        {c.relations.intro}
+      </p>
+
+      <ul class="bg-line mt-7 grid gap-px sm:grid-cols-2 lg:grid-cols-4">
+        {
+          relations.map((relation) => (
+            <li class="bg-paper-3 text-meta p-4 font-mono uppercase">
+              {relation.approx && <span class="text-navy">≈ </span>}
+              {c.relations.one} {relation.fromLabel} = {relation.value}{" "}
+              {relation.toLabel}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3:// EJEMPLOS RESUELTOS -->
+  <section class="border-line bg-paper-2 border-b px-5 py-9 md:px-10">
+    <div class="mx-auto w-full max-w-7xl">
+      <SectionTitle
+        number={3}
+        label={c.examples.sectionLabel}
+        title={c.examples.heading}
+      />
+      <p class="text-ink-soft text-detail mt-4 max-w-2xl">{c.examples.intro}</p>
+
+      <div class="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          examples.map((example, index) => (
+            <button
+              type="button"
+              data-example
+              data-category={example.category}
+              data-from={example.from}
+              data-to={example.to}
+              data-value={example.value}
+              class="border-line bg-paper-3 hover:border-navy group border p-4 text-left transition-colors"
+            >
+              <span class="text-micro text-ink-faint block font-mono uppercase">
+                {c.examples.step} {String(index + 1).padStart(2, "0")}
+              </span>
+              <span class="text-detail text-ink mt-3 block font-mono">
+                {example.valueText} {example.fromLabel} →{" "}
+                {example.approx ? "≈ " : ""}
+                {example.result} {example.toLabel}
+              </span>
+              <span class="text-meta text-ink-soft mt-2 block font-mono">
+                {example.valueText} {example.operation} {example.factor} ={" "}
+                {example.result}
+              </span>
+              <span class="text-micro text-navy mt-3 block font-mono uppercase">
+                [↵] {c.examples.load}
+              </span>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 4:// REGLA -->
+  <section class="border-line bg-paper border-b px-5 py-9 md:px-10">
+    <div class="mx-auto w-full max-w-7xl">
+      <SectionTitle
+        number={4}
+        label={c.rule.sectionLabel}
+        title={c.rule.heading}
+      />
+      <p class="text-ink-soft text-detail mt-4 max-w-2xl">{c.rule.intro}</p>
+
+      <div class="bg-line mt-7 grid gap-px md:grid-cols-2">
+        <div class="bg-paper-3 p-5">
+          <p class="text-caption text-navy font-mono uppercase">
+            × {c.rule.bigToSmall}
+          </p>
+          <p class="text-detail text-ink mt-3 font-mono">
+            {c.rule.bigToSmallText}
+          </p>
+        </div>
+        <div class="bg-paper-3 p-5">
+          <p class="text-caption text-coral font-mono uppercase">
+            ÷ {c.rule.smallToBig}
+          </p>
+          <p class="text-detail text-ink mt-3 font-mono">
+            {c.rule.smallToBigText}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5:// SISTEMA INTERNACIONAL -->
+  <section class="border-line bg-paper-2 border-b px-5 py-9 md:px-10">
+    <div class="mx-auto w-full max-w-7xl">
+      <SectionTitle number={5} label={c.si.sectionLabel} title={c.si.heading} />
+      <p class="text-ink-soft text-detail mt-4 max-w-2xl">{c.si.intro}</p>
+
+      <div class="border-line mt-7 overflow-x-auto border">
+        <table class="w-full min-w-120 border-collapse">
+          <thead>
+            <tr class="bg-navy text-cream">
+              <th class="text-meta p-3 text-left font-mono uppercase">
+                {c.si.symbolHeader}
+              </th>
+              <th class="text-meta p-3 text-left font-mono uppercase">
+                {c.si.nameHeader}
+              </th>
+              <th class="text-meta p-3 text-left font-mono uppercase">
+                {c.si.quantityHeader}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              c.si.units.map((unit) => (
+                <tr class="border-line border-t">
+                  <td class="text-detail text-navy w-24 p-3 font-mono">
+                    {unit.symbol}
+                  </td>
+                  <td class="text-detail text-ink p-3 font-mono">
+                    {unit.name}
+                  </td>
+                  <td class="text-detail text-ink-soft p-3 font-mono">
+                    {unit.quantity}
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="border-navy bg-paper-3 mt-7 border p-5">
+        <p class="text-caption text-navy font-mono uppercase">
+          {c.si.conclusionTitle}
+        </p>
+        <p class="text-detail text-ink-soft mt-3">{c.si.conclusion}</p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { formatNumber, operation } from "@/lib/units";
+
+  type Item = {
+    id: string;
+    label: string;
+    era: string;
+    factor: number;
+    approx: boolean;
+    doc: boolean;
+  };
+
+  type Entry = { items: Item[]; from: string; to: string };
+
+  const root = document.querySelector<HTMLElement>("[data-converter]");
+
+  if (root) {
+    const lang = document.documentElement.lang || "es";
+    const fmt = (value: number) => formatNumber(value, lang);
+
+    const labels = {
+      multiply: root.dataset.labelMultiply ?? "×",
+      divide: root.dataset.labelDivide ?? "÷",
+      relation: root.dataset.labelRelation ?? "",
+      empty: root.dataset.labelEmpty ?? "—",
+      doc: root.dataset.labelDoc ?? "DOC",
+    };
+
+    const eraSelect = root.querySelector("[data-role='era']");
+    const eraValue = eraSelect instanceof HTMLSelectElement ? eraSelect : null;
+
+    const tabButtons = Array.from(root.querySelectorAll("[data-cat]")).filter(
+      (element): element is HTMLButtonElement =>
+        element instanceof HTMLButtonElement,
+    );
+
+    const panels = Array.from(root.querySelectorAll("[data-panel]")).filter(
+      (element): element is HTMLElement => element instanceof HTMLElement,
+    );
+
+    const activeClasses = ["bg-navy", "text-cream", "border-navy"];
+    const idleClasses = [
+      "bg-paper-3",
+      "text-ink-soft",
+      "border-line",
+      "hover:text-ink",
+    ];
+
+    const store = new Map<HTMLElement, Entry>();
+
+    const parts = (panel: HTMLElement) => {
+      const value = panel.querySelector("[data-role='value']");
+      const from = panel.querySelector("[data-role='from']");
+      const to = panel.querySelector("[data-role='to']");
+      const grid = panel.querySelector("[data-role='grid']");
+      const body = panel.querySelector("[data-role='body']");
+      const notice = panel.querySelector("[data-role='no-units']");
+      const result = panel.querySelector("[data-role='result']");
+      const unit = panel.querySelector("[data-role='unit']");
+      const operation = panel.querySelector("[data-role='operation']");
+      const formula = panel.querySelector("[data-role='formula']");
+      const hint = panel.querySelector("[data-role='hint']");
+
+      if (
+        !(value instanceof HTMLInputElement) ||
+        !(from instanceof HTMLSelectElement) ||
+        !(to instanceof HTMLSelectElement) ||
+        !(grid instanceof HTMLElement)
+      ) {
+        return null;
+      }
+
+      return {
+        value,
+        from,
+        to,
+        grid,
+        body,
+        notice,
+        result,
+        unit,
+        operation,
+        formula,
+        hint,
+      };
+    };
+
+    const readItems = (select: HTMLSelectElement): Item[] =>
+      Array.from(select.options).map((option) => ({
+        id: option.value,
+        label: (option.textContent ?? option.value).trim(),
+        era: option.dataset.era ?? "moderno",
+        factor: Number(option.dataset.factor),
+        approx: option.dataset.approx === "1",
+        doc: option.dataset.doc === "1",
+      }));
+
+    // Captura el listado completo de unidades de cada panel antes de filtrar
+    for (const panel of panels) {
+      const fromSelect = panel.querySelector("[data-role='from']");
+      const toSelect = panel.querySelector("[data-role='to']");
+      if (
+        !(fromSelect instanceof HTMLSelectElement) ||
+        !(toSelect instanceof HTMLSelectElement)
+      ) {
+        continue;
+      }
+      store.set(panel, {
+        items: readItems(fromSelect),
+        from: fromSelect.value,
+        to: toSelect.value,
+      });
+    }
+
+    const currentEra = () => (eraValue ? eraValue.value : "all");
+
+    const visibleItems = (entry: Entry) =>
+      entry.items.filter(
+        (item) => currentEra() === "all" || item.era === currentEra(),
+      );
+
+    // Redibuja las opciones de ambos selects según la época activa
+    const renderOptions = (panel: HTMLElement) => {
+      const entry = store.get(panel);
+      const ui = parts(panel);
+      if (!entry || !ui) return;
+
+      const list = visibleItems(entry);
+
+      if (ui.body instanceof HTMLElement) ui.body.hidden = list.length === 0;
+      if (ui.notice instanceof HTMLElement) ui.notice.hidden = list.length > 0;
+
+      for (const [select, fallbackKey, key] of [
+        [ui.from, "defaultFrom", "from"] as const,
+        [ui.to, "defaultTo", "to"] as const,
+      ]) {
+        select.replaceChildren(
+          ...list.map((item) => {
+            const option = document.createElement("option");
+            option.value = item.id;
+            option.textContent = item.label;
+            return option;
+          }),
+        );
+
+        const fallback = panel.dataset[fallbackKey];
+        const candidates = [entry[key], fallback, list[0]?.id].filter(
+          (id): id is string => typeof id === "string",
+        );
+        const next = candidates.find((id) =>
+          list.some((item) => item.id === id),
+        );
+        if (next) select.value = next;
+      }
+    };
+
+    const renderGrid = (panel: HTMLElement, value: number, from: Item) => {
+      const entry = store.get(panel);
+      const ui = parts(panel);
+      if (!entry || !ui) return;
+
+      ui.grid.replaceChildren(
+        ...visibleItems(entry).map((item) => {
+          const row = document.createElement("div");
+          row.className = "stack-cell";
+
+          const left = document.createElement("span");
+          left.className = "flex items-center gap-2";
+
+          const name = document.createElement("span");
+          name.textContent = item.label;
+          left.append(name);
+
+          if (item.doc) {
+            const chip = document.createElement("span");
+            chip.className = "text-micro text-navy border-navy border px-1";
+            chip.textContent = labels.doc;
+            left.append(chip);
+          }
+
+          const right = document.createElement("span");
+          right.className = "text-ink-soft";
+          const converted = (value * from.factor) / item.factor;
+          right.textContent = `${
+            item.approx || from.approx ? "≈ " : ""
+          }${fmt(converted)}`;
+
+          row.append(left, right);
+          return row;
+        }),
+      );
+    };
+
+    const update = (panel: HTMLElement) => {
+      const entry = store.get(panel);
+      const ui = parts(panel);
+      if (!entry || !ui) return;
+
+      if (ui.from.value) entry.from = ui.from.value;
+      if (ui.to.value) entry.to = ui.to.value;
+
+      const from = entry.items.find((item) => item.id === entry.from);
+      const to = entry.items.find((item) => item.id === entry.to);
+      if (!from || !to) return;
+
+      const conversion = operation(from, to);
+      const r = from.factor / to.factor;
+      const approx = from.approx || to.approx;
+
+      if (ui.operation) {
+        ui.operation.textContent = `${conversion.multiply ? "×" : "÷"} ${
+          conversion.multiply ? labels.multiply : labels.divide
+        }`;
+      }
+      if (ui.unit) {
+        ui.unit.textContent = to.label;
+      }
+      if (ui.hint) {
+        ui.hint.textContent =
+          from.id === to.id
+            ? ""
+            : `${labels.relation} 1 ${from.label} = ${fmt(r)} ${to.label}`;
+      }
+
+      const parsed = Number(ui.value.value.replace(",", "."));
+
+      if (!Number.isFinite(parsed) || ui.value.value.trim() === "") {
+        if (ui.result) ui.result.textContent = labels.empty;
+        if (ui.formula) ui.formula.textContent = "—";
+        return;
+      }
+
+      const result = parsed * r;
+
+      if (ui.result) {
+        ui.result.textContent = `${approx ? "≈ " : ""}${fmt(result)}`;
+      }
+      if (ui.formula) {
+        ui.formula.textContent = `${fmt(parsed)} ${
+          conversion.multiply ? "×" : "÷"
+        } ${fmt(conversion.operand)} = ${fmt(result)}`;
+      }
+
+      renderGrid(panel, parsed, from);
+    };
+
+    const activate = (id: string) => {
+      for (const panel of panels) {
+        panel.hidden = panel.dataset.panel !== id;
+      }
+      for (const button of tabButtons) {
+        const active = button.dataset.cat === id;
+        button.setAttribute("aria-selected", String(active));
+        button.classList.remove(...(active ? idleClasses : activeClasses));
+        button.classList.add(...(active ? activeClasses : idleClasses));
+      }
+      const panel = panels.find((element) => element.dataset.panel === id);
+      if (panel) update(panel);
+    };
+
+    // ¿La categoría tiene unidades en la época seleccionada?
+    const panelHasUnits = (panel: HTMLElement) => {
+      const entry = store.get(panel);
+      return entry ? visibleItems(entry).length > 0 : false;
+    };
+
+    // Oculta las categorías sin unidades y cambia a la primera disponible
+    const syncTabs = () => {
+      let activeId = panels.find((panel) => !panel.hidden)?.dataset.panel;
+
+      for (const panel of panels) {
+        const id = panel.dataset.panel;
+        const button = tabButtons.find((element) => element.dataset.cat === id);
+        const hasUnits = panelHasUnits(panel);
+        if (button) button.hidden = !hasUnits;
+        if (!hasUnits && id === activeId) activeId = undefined;
+      }
+
+      if (!activeId) {
+        const fallback = panels.find((panel) => panelHasUnits(panel));
+        const id = fallback?.dataset.panel;
+        if (id) activate(id);
+      }
+    };
+
+    for (const button of tabButtons) {
+      button.addEventListener("click", () => {
+        const id = button.dataset.cat;
+        if (id) activate(id);
+      });
+    }
+
+    for (const panel of panels) {
+      const ui = parts(panel);
+      if (!ui) continue;
+
+      ui.value.addEventListener("input", () => update(panel));
+      ui.from.addEventListener("change", () => update(panel));
+      ui.to.addEventListener("change", () => update(panel));
+
+      const swap = panel.querySelector("[data-role='swap']");
+      if (swap instanceof HTMLButtonElement) {
+        swap.addEventListener("click", () => {
+          const entry = store.get(panel);
+          if (!entry) return;
+
+          const value = ui.from.value;
+          const era = currentEra();
+          entry.from = ui.to.value;
+          entry.to = value;
+
+          // Sin filtro activo se puede aplicar el intercambio directamente
+          if (era === "all") {
+            ui.from.value = entry.from;
+            ui.to.value = entry.to;
+          }
+          renderOptions(panel);
+          update(panel);
+        });
+      }
+    }
+
+    if (eraValue) {
+      eraValue.addEventListener("change", () => {
+        for (const panel of panels) {
+          renderOptions(panel);
+          update(panel);
+        }
+        syncTabs();
+      });
+    }
+
+    const exampleButtons = Array.from(
+      document.querySelectorAll("[data-example]"),
+    ).filter(
+      (element): element is HTMLButtonElement =>
+        element instanceof HTMLButtonElement,
+    );
+
+    for (const button of exampleButtons) {
+      button.addEventListener("click", () => {
+        const category = button.dataset.category;
+        const from = button.dataset.from;
+        const to = button.dataset.to;
+        const value = button.dataset.value;
+        if (!category || !from || !to || value === undefined) return;
+
+        const panel = panels.find(
+          (element) => element.dataset.panel === category,
+        );
+        const entry = panel ? store.get(panel) : undefined;
+        const ui = panel ? parts(panel) : null;
+        if (!panel || !entry || !ui) return;
+
+        if (eraValue) eraValue.value = "all";
+
+        entry.from = from;
+        entry.to = to;
+        ui.value.value = value;
+
+        renderOptions(panel);
+        syncTabs();
+        activate(category);
+        root.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+
+    for (const panel of panels) {
+      renderOptions(panel);
+    }
+
+    const initial = panels.find((panel) => !panel.hidden) ?? panels[0];
+    if (initial) update(initial);
+    syncTabs();
+  }
+</script>

@@ -10,9 +10,13 @@ import Footer from "@/components/Footer.astro";
 
 interface Props {
   locale: LocalesValues;
+  /** Título de la pestaña; si se omite se usa el del diccionario `layout` */
+  title?: string;
+  /** Páginas internas/temporales: fuera de buscadores */
+  noindex?: boolean;
 }
 
-const { locale } = Astro.props;
+const { locale, title, noindex } = Astro.props;
 const lang = getLocaleLang(locale);
 const dir = getHTMLTextDir(locale);
 
@@ -46,8 +50,9 @@ const ogImage = "/og-image.png";
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
     />
 
-    <title>{siteTitle}</title>
+    <title>{title ?? siteTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
